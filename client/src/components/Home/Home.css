@@ -1,0 +1,73 @@
+.row{
+    display: flex;
+    justify-content: space-evenly  ;
+    gap: 1rem ;
+    margin-top: 1rem;
+    
+    
+    
+
+}
+
+.nav-content{
+    background-color:#8fca8f;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.7rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.2rem 0.2rem hsla(0, 0%, 0%, 0.342);
+    margin-bottom: 2rem;
+    
+}
+
+.input-buscar{
+    padding: 0.5rem;
+    width :70%;
+    border-radius: 0.5em;
+    font-weight: 700;
+    font-size:0.9rem;
+}
+.btn-buscar{
+    padding: 0.5rem 1.5rem;
+    background-color:#308030;
+    color: #fff;
+    font-weight: 900;
+    font-size: 1rem;
+    border: #fff solid 0.1rem;
+    border-radius: 0.5em;
+}
+
+.btn-buscar:hover{
+    cursor: pointer;
+    padding: 0.5rem 1.5rem;
+    background-color:#fff;
+    color: #308030;
+    font-weight: 900;
+    font-size: 1rem;
+    border: #308030 solid 0.1rem;
+    border-radius: 0.5em;
+}
+
+.container-card{
+    display: flex;
+    justify-content: space-around;  
+    flex: wrap;
+    flex-wrap:wrap ;
+    width: 80%;
+    gap: 1rem;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.card-pokemon{
+    border: #308030 1px solid;
+    width: 25%;
+    border-radius:1rem;
+}
+
+.img-pokemon{
+    width: 150px;
+    height: 150px;
+    margin: 1rem;
+}
