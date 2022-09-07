@@ -3,6 +3,8 @@ import axios from 'axios';
 
 export const GET_POKEMOS = "GET_POKEMOS";
 export const ORDER_POKEMON = 'ORDER_POKEMON';
+export const GET_TYPES = 'GET_TYPES';
+
 
 
 export function  getPokemos() {
@@ -29,6 +31,14 @@ export function orderPokemon(Pokemon, order){
       return dispatch({ type: ORDER_POKEMON, payload: Pokemon.reverse() });
     }
   }
+}
+
+export function getTypes(){
+  return async function (dispatch) {
+      const result = await axios.get("http://localhost:3001/types");
+      return dispatch({ type: GET_TYPES, payload: result.data.types });
+  };
+
 }
 
 

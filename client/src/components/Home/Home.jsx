@@ -1,8 +1,7 @@
 import React, {useEffect,useState} from 'react';
 import { connect } from "react-redux";
 import { getPokemos, orderPokemon } from "../../actions/index";
-import CardPokemon from './CardPokemon/CardPokemon';
-import {Link,NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import './Home.css';
 import ListaPokemos from './ListaPokemos/ListaPokemons';
@@ -13,33 +12,15 @@ const Home = (props)=>{
     const [order,setOrder] = useState('');
     const [paginaActual,setPaginaActual] = useState(1);
     const [pokemonPorPagina,setPokemonPorPagina] = useState(12);
-
-
-    
-
-    useEffect(  ()=>{
-        console.log("Did Mount");   
-        
-   
-         getPokemos();
-        
-        
-            
-        console.log(props.pokemosAll);
-
-        
-           
-        
+  
+    useEffect(  ()=>{  
+        getPokemos();
     },[props.pokemosAll]);
-
-    
-    console.log('calcualdo paginaciones')
+  
     const UltimoIndice = paginaActual * pokemonPorPagina;
     const PrimerIndice =  UltimoIndice - pokemonPorPagina;
     const pokemonsActuales =  props.pokemosAll.slice(PrimerIndice,UltimoIndice);
 
-    console.log(PrimerIndice)
-    
 
     function Paginar (numeroPagina){
         setPaginaActual(numeroPagina);
@@ -47,17 +28,13 @@ const Home = (props)=>{
 
     function orderASC(){
         setOrder('ASC')
-        console.log('order ASC')
         props.orderPokemon(props.pokemosAll,'ASC');
-        
-        console.log(props.pokemosAll);
+
     }
     function orderDESC(){
         setOrder('DESC')
-        console.log('order DESC')
         props.orderPokemon(props.pokemosAll,'DESC');
-        
-        console.log(props.pokemosAll);
+
     }
     
 

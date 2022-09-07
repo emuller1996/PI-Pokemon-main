@@ -1,8 +1,9 @@
-import { GET_POKEMOS,ORDER_POKEMON } from "../actions/index";
+import { GET_POKEMOS,ORDER_POKEMON,GET_TYPES } from "../actions/index";
 
 const initialState = {
   pokemosAll: [],
-  pokemonDetalle : {}
+  pokemonDetalle : {},
+  types : []
 };
 
 function rootReducer(state = initialState, action) {
@@ -19,6 +20,13 @@ function rootReducer(state = initialState, action) {
         ...state,
         pokemosAll: action.payload,
       };
+    }
+
+    if(action.type === GET_TYPES){
+      return {
+        ...state,
+        types: action.payload,
+      }
     }
     return state;
   }
