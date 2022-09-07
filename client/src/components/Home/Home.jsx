@@ -6,42 +6,65 @@ import {Link,NavLink} from 'react-router-dom';
 
 import './Home.css';
 import ListaPokemos from './ListaPokemos/ListaPokemons';
+import Paginacion from './Paginacion/Paginacion';
 
 const Home = (props)=>{
 
     const [order,setOrder] = useState('');
+    const [paginaActual,setPaginaActual] = useState(1);
+    const [pokemonPorPagina,setPokemonPorPagina] = useState(12);
 
+
+    
 
     useEffect(  ()=>{
         console.log("Did Mount");   
-        getPokemos();
+        
+   
+         getPokemos();
+        
+        
             
         console.log(props.pokemosAll);
 
         
            
         
-    },[]);
+    },[props.pokemosAll]);
 
+    
+    console.log('calcualdo paginaciones')
+    const UltimoIndice = paginaActual * pokemonPorPagina;
+    const PrimerIndice =  UltimoIndice - pokemonPorPagina;
+    const pokemonsActuales =  props.pokemosAll.slice(PrimerIndice,UltimoIndice);
 
+    console.log(PrimerIndice)
+    
+
+    function Paginar (numeroPagina){
+        setPaginaActual(numeroPagina);
+    }
 
     function orderASC(){
+        setOrder('ASC')
         console.log('order ASC')
         props.orderPokemon(props.pokemosAll,'ASC');
-        setOrder('ASC')
+        
         console.log(props.pokemosAll);
     }
     function orderDESC(){
+        setOrder('DESC')
         console.log('order DESC')
         props.orderPokemon(props.pokemosAll,'DESC');
-        setOrder('DESC')
+        
         console.log(props.pokemosAll);
     }
+    
 
 
     return (
         <div>
-            <h1>Home Pokemon</h1>
+            <h1>HOME POKEMON APP</h1>
             <div className='nav-content'>
                 <div className='row' >
                 <Link to='pokemon/create' className='btn-buscar'> <i className="fas fa-plus-circle"></i> Nuevo Pokemon</Link>
@@ -50,9 +73,16 @@ const Home = (props)=>{
                     
                 </div>
                 <div className='row'>
-                <button onClick={()=>{ orderASC() }} className='btn-buscar'> <i className="fas fa-sort-alpha-down"></i> ASC</button>
-                <button onClick={orderDESC} className='btn-buscar'> <i className="fas fa-sort-alpha-down-alt"></i> DESC</button>
+                <div>
+                    <button onClick={()=>{ orderASC() }} className='btn-buscar'> <i className="fas fa-sort-alpha-down"></i> ASC</button>
+                    <button onClick={orderDESC} className='btn-buscar'> <i className="fas fa-sort-alpha-down-alt"></i> DESC</button>
+                </div>
+                
+                <select class="filter-select" id="filter">
+                    <option value="Creados">Creados</option>
+                    <option value="Existentes">Existentes</option>
 
+                </select>
                     
                 </div>
 
@@ -61,8 +91,10 @@ const Home = (props)=>{
             
             <div className='container-card'>
 
-            {props.pokemosAll ? <ListaPokemos pokemons={props.pokemosAll} /> : <p>Cargando . . .</p> }
+            {props.pokemosAll ? <ListaPokemos pokemons={pokemonsActuales} /> : <p>Cargando . . .</p> }
             </div>
+
+            <Paginacion PokemonPorPagina={pokemonPorPagina}  TotalPokemon ={props.pokemosAll.length}  Paginar = {Paginar} />
             
         </div>
     )

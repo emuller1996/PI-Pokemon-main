@@ -1,0 +1,44 @@
+.paginacion-nav{
+    margin-top:1rem;
+    margin-bottom:1rem;
+
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5rem;
+    background-color:#8fca8f;
+    width: 75%;
+    border-radius:1rem;
+}
+
+.paginacion-nav ul {
+    list-style: none;
+    text-align: center;
+}
+
+.paginacion-nav ul li{ 
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.paginacion-nav ul li a{
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    border: #fff solid 1px;
+    border-radius:0.5rem;
+    background-color: #308030;
+    font-weight: 900;
+}
+
+.paginacion-nav ul li a:hover{
+    cursor: pointer;
+    display: block;
+    padding: 10px 20px;
+    color: #308030;
+    text-decoration: none;
+    border: #308030 solid 1px;
+    border-radius:0.5rem;
+    background-color: #fff;
+    font-weight: 900;
+}
