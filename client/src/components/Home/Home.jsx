@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { connect } from "react-redux";
-import { getPokemos, orderPokemon } from "../../actions/index";
+import { getPokemos, orderPokemon,getPokemonByName } from "../../actions/index";
 import {Link} from 'react-router-dom';
 
 import './Home.css';
@@ -10,6 +10,8 @@ import Paginacion from './Paginacion/Paginacion';
 const Home = (props)=>{
 
     const [order,setOrder] = useState('');
+    const [nameBuscar,setNameBuscar] = useState('');
+
     const [paginaActual,setPaginaActual] = useState(1);
     const [pokemonPorPagina,setPokemonPorPagina] = useState(12);
   
@@ -34,9 +36,16 @@ const Home = (props)=>{
     function orderDESC(){
         setOrder('DESC')
         props.orderPokemon(props.pokemosAll,'DESC');
-
     }
     
+
+    function BuscarPokemon (){
+        props.getPokemonByName(props.pokemosAll,nameBuscar);
+    }
+
+    function onChange(e){
+        setNameBuscar(e.target.value)
+    }
 
 
     return (
@@ -44,9 +53,9 @@ const Home = (props)=>{
             <h1>HOME POKEMON APP</h1>
             <div className='nav-content'>
                 <div className='row' >
-                <Link to='pokemon/create' className='btn-buscar'> <i className="fas fa-plus-circle"></i> Nuevo Pokemon</Link>
-                    <input  id='buscar_p' type="text" placeholder="Nombre del pokemon"  className='input-buscar'/>
-                    <button className='btn-buscar'> <i className="fas fa-search"></i> Buscar</button>
+                <Link to='/create' className='btn-buscar'> <i className="fas fa-plus-circle"></i> Nuevo Pokemon</Link>
+                    <input  onChange={onChange} id='buscar_p' type="text" placeholder="Nombre del pokemon"  className='input-buscar'/>
+                    <button  onClick={BuscarPokemon} className='btn-buscar'> <i className="fas fa-search"></i> Buscar</button>
                     
                 </div>
                 <div className='row'>
@@ -90,7 +99,8 @@ function mapStateToProps(state) {
   function mapDispatchToProps(dispatch) {
     return {
         getPokemos: dispatch(getPokemos()),
-        orderPokemon : (pokemon,order) => dispatch(orderPokemon(pokemon,order)) 
+        orderPokemon : (pokemon,order) => dispatch(orderPokemon(pokemon,order)),
+        getPokemonByName : (pokemons,name) => dispatch(getPokemonByName(pokemons,name)),
     };
   }
   

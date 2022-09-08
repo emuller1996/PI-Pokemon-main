@@ -2,8 +2,11 @@ import axios from 'axios';
 
 
 export const GET_POKEMOS = "GET_POKEMOS";
+export const GET_POKEMOS_DETALLE = "GET_POKEMOS_DETALLE";
 export const ORDER_POKEMON = 'ORDER_POKEMON';
 export const GET_TYPES = 'GET_TYPES';
+export const GET_POKEMON_BY_NAME = "GET_POKEMON_BY_NAME";
+
 
 
 
@@ -18,7 +21,14 @@ export function  getPokemos() {
         const result = await axios.get("http://localhost:3001/pokemon");
         return dispatch({ type: GET_POKEMOS, payload: result.data.pokemons });
     };
+}
+
+export function getPokemonDetalle(id){
+  return async function (dispatch) {
+    const result = await axios.get(`http://localhost:3001/pokemon/${id}`);
+        return dispatch({ type: GET_POKEMOS_DETALLE, payload: result.data.pokemon });
   }
+}
 
 export function orderPokemon(Pokemon, order){
   return function(dispatch){
@@ -39,6 +49,12 @@ export function getTypes(){
       return dispatch({ type: GET_TYPES, payload: result.data.types });
   };
 
+}
+
+export function getPokemonByName(pokemons,name){
+  return function (dispatch){
+    return dispatch({ type: GET_POKEMON_BY_NAME, payload: pokemons.filter( p => p.name===name ) });
+  }
 }
 
 

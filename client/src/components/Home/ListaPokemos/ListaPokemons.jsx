@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import CardPokemon from '../CardPokemon/CardPokemon';
-import spiner from './Spinner-5.gif';
+import spiner from '../../../Spinner-5.gif';
 
 const ListaPokemos = (props)=>{
 

@@ -3,6 +3,7 @@ import Landing from './components/Landing/Landing';
 import {Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import NuevoPokemon from './components/NuevoPokemon/NuevoPokemon';
+import PokemonDetalle from './components/PokemonDetalle/PokemonDetalle';
 
 function App() {
   return (
@@ -13,9 +14,10 @@ function App() {
       <Route exact path='/Home'>
         <Home></Home>
       </Route>
-      <Route exact path='/pokemon/create'>
+      <Route exact path='/create'>
         <NuevoPokemon/>
       </Route>
+      <Route exact path="/pokemon/:id" component={PokemonDetalle} />
       
     </div>
   );

@@ -20,7 +20,11 @@ router.get('/pokemon', async (req, res) =>{
         const pokemons = result.data.results;   
         const p =  pokemons.map( async (p) => {
             const result = await axios.get(p.url);
-            return  Object.assign(p,{img : result.data.sprites.other.dream_world.front_default, types : result.data.types  });
+            return  Object.assign(p,{ 
+                img : result.data.sprites.other.dream_world.front_default, 
+                types : result.data.types,
+                id : result.data.id,
+                attack :  result.data.stats[1] });
         })         
          await Promise.all(p)        
         res.json({pokemons});
