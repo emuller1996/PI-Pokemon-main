@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { connect } from "react-redux";
-import { getPokemos, orderPokemon,getPokemonByName } from "../../actions/index";
+import { getPokemos, orderPokemon,getPokemonByName , changeOrder, orderPokemonbyAttack} from "../../actions/index";
 import {Link} from 'react-router-dom';
 
 import './Home.css';
@@ -11,6 +11,8 @@ const Home = (props)=>{
 
     const [order,setOrder] = useState('');
     const [nameBuscar,setNameBuscar] = useState('');
+    const [orderBy,setOrderBy] = useState('Name');
+    const [render,setRender] = useState(0);
 
     const [paginaActual,setPaginaActual] = useState(1);
     const [pokemonPorPagina,setPokemonPorPagina] = useState(12);
@@ -29,22 +31,38 @@ const Home = (props)=>{
     }
 
     function orderASC(){
+        setRender(render+1); 
         setOrder('ASC')
-        props.orderPokemon(props.pokemosAll,'ASC');
 
+        
+        if(orderBy === 'Name') props.orderPokemon(props.pokemosAll,order);  
+        if(orderBy === 'Attack') props.orderPokemonbyAttack(props.pokemosAll,order);  
+        
     }
     function orderDESC(){
+        setRender(render+1); 
         setOrder('DESC')
-        props.orderPokemon(props.pokemosAll,'DESC');
+        if(orderBy === 'Name') props.orderPokemon(props.pokemosAll,order);  
+        if(orderBy === 'Attack') props.orderPokemonbyAttack(props.pokemosAll,order);  
+        
+        
+
+                          
     }
+
+  
     
 
     function BuscarPokemon (){
-        props.getPokemonByName(props.pokemosAll,nameBuscar);
+        props.getPokemonByName(props.pokemosAll,nameBuscar);     
     }
 
     function onChange(e){
         setNameBuscar(e.target.value)
+    }
+
+    function handleSelectChange(e){
+        setOrderBy(e.target.value);
     }
 
 
@@ -60,8 +78,12 @@ const Home = (props)=>{
                 </div>
                 <div className='row'>
                 <div>
-                    <button onClick={()=>{ orderASC() }} className='btn-buscar'> <i className="fas fa-sort-alpha-down"></i> ASC</button>
-                    <button onClick={orderDESC} className='btn-buscar'> <i className="fas fa-sort-alpha-down-alt"></i> DESC</button>
+                    <button onClick={()=>{ orderASC();  }} className='btn-buscar' name='ASC' > <i className="fas fa-sort-alpha-down"></i> ASC</button>
+                    <button onClick={orderDESC} className='btn-buscar' name='DESC' > <i className="fas fa-sort-alpha-down-alt"></i> DESC</button>
+                    <select class="order-select btn-buscar" id="order" name='' onChange={handleSelectChange}>
+                        <option value="Name">Name</option>
+                        <option value="Attack">Attack</option>
+                    </select>
                 </div>
                 
                 <select class="filter-select" id="filter">
@@ -101,6 +123,7 @@ function mapStateToProps(state) {
         getPokemos: dispatch(getPokemos()),
         orderPokemon : (pokemon,order) => dispatch(orderPokemon(pokemon,order)),
         getPokemonByName : (pokemons,name) => dispatch(getPokemonByName(pokemons,name)),
+        orderPokemonbyAttack : (pokemon,order) => dispatch(orderPokemonbyAttack(pokemon,order))
     };
   }
   

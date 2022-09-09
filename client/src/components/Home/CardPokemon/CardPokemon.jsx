@@ -8,7 +8,7 @@ const CardPokemon = (props)=>{
 
     return (
         <div  key={props.pokemon.name} className='card-pokemon'>
-            <img className='img-pokemon' src={props.pokemon.img} alt="" />
+            <img className='img-pokemon' src={props.pokemon.img} alt="IMAGE_POKEMON" />
             <h2> <Link to={`/pokemon/${props.pokemon.id}`}> {props.pokemon.name} </Link> </h2>
             
             <ul className='tipes'>
