@@ -2,30 +2,16 @@ import React, {useEffect, useState} from 'react';
 import './NuevoPokemon.css';
 import { connect } from "react-redux";
 import { getTypes } from "../../actions/index";
+import {validate} from '../../helpers/index';
 
 
 
-export function validate(input) {
-    let errors = {};
-    if (!input.name) {
-      errors.name = 'Nombre es requerido.';
-    } else if (!/^[A-Z]+$/i.test(input.name)) {
-      errors.name = 'Nombre invalido (Solo Letras!!)';
-    }
 
-
-    if (!input.vida) {
-        errors.vida = 'Vida es requerido';
-      } else if (!/^[0-9]+$/.test(input.vida) || input.vida.length > 3) {
-        errors.vida = 'Vida is invalid';
-      }
-
-    return errors;
-  };
 
 const NuevoPokemon = (props)=>{
 
     const [errors, setErrors] = React.useState({});
+    const [types,setTypes] = useState([]);
     const [input, setInput] = React.useState({
         name: '',
         vida: '',
@@ -45,6 +31,9 @@ const NuevoPokemon = (props)=>{
     },[])
 
 
+    const handleTypeChange = function (e) {
+        setTypes( [...types,e.target.value ] );
+      };
 
 
     const handleInputChange = function (e) {
@@ -81,10 +70,15 @@ const NuevoPokemon = (props)=>{
                         <td>
                             <input className={errors.vida ? 'input-error' : 'input-form'} type="number" name="vida" id="vida"  placeholder='Vida' onChange={(e) => handleInputChange(e)} value={input.vida} />
                             {errors.vida && (
-                                    <span className="danger">{errors.vida  }</span>
+                                    <p className="danger">{errors.vida  }</p>
                                 )}
                         </td>
-                        <td><input className='input-form' type="number" name="ataque" id="ataque" placeholder='Ataque'/></td>
+                        <td>
+                            <input className='input-form' type="number" name="ataque" id="ataque" placeholder='Ataque' onChange={(e) => handleInputChange(e)} value={input.ataque} />
+                            {errors.ataque && (
+                                    <p className="danger">{errors.ataque  }</p>
+                                )}                 
+                        </td>
                         <td><input className='input-form' type="number" name="defensa" id="defensa" placeholder='defensa'/></td>
                         <td><input className='input-form' type="number" name="velocidad" id="velocidad" placeholder='velocidad'/></td>
 
@@ -102,14 +96,17 @@ const NuevoPokemon = (props)=>{
                         <td colSpan={4}>
 
                         {props.types.length !== 0 ? props.types.map(t => (
-                            <label key={t.name}><input type="checkbox" id="cbox1" value={t.name} /> {t.name}</label>
+                            <label key={t.name}>
+                                <input type="checkbox" id="cbox1" value={t.name} onChange={(e)=>handleTypeChange(e)} /> {t.name}
+                            
+                            </label>
                         )) : <p>Cargando . . . </p> }
                         </td>
                         
                     </tr>
                     <tr>
                         <td colSpan={4} >
-                            {errors.name  || errors.vida ?   <input  className='btn-buscar' disabled type="submit" value="Guardar"  /> : <input  className='btn-buscar' type="submit" value="Guardar"  />}
+                            {errors.name  || errors.vida ?   <input  className='btn-buscar' disabled type="submit" value="Guardar"   /> : <input  className='btn-buscar' type="submit" value="Guardar"  />}
                            
                         </td>
                     </tr>

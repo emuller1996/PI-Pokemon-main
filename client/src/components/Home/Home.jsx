@@ -12,7 +12,7 @@ const Home = (props)=>{
     const [order,setOrder] = useState('');
     const [nameBuscar,setNameBuscar] = useState('');
     const [orderBy,setOrderBy] = useState('Name');
-    const [render,setRender] = useState(0);
+    const [render,setRender] = useState(false);
 
     const [paginaActual,setPaginaActual] = useState(1);
     const [pokemonPorPagina,setPokemonPorPagina] = useState(12);
@@ -20,6 +20,23 @@ const Home = (props)=>{
     useEffect(  ()=>{  
         getPokemos();
     },[props.pokemosAll]);
+
+
+    useEffect(  ()=>{          
+        if(order!==''){
+            if(orderBy === 'Name') {
+                props.orderPokemon(props.pokemosAll,order);  
+                setRender(!render);             
+            }
+            if(orderBy === 'Attack'){
+                props.orderPokemonbyAttack(props.pokemosAll,order); 
+                setRender(!render); 
+            }            
+        }      
+    },[order,orderBy,props.pokemosAll]);
+
+
+
   
     const UltimoIndice = paginaActual * pokemonPorPagina;
     const PrimerIndice =  UltimoIndice - pokemonPorPagina;
@@ -30,36 +47,12 @@ const Home = (props)=>{
         setPaginaActual(numeroPagina);
     }
 
-    function orderASC(){
-        setRender(render+1); 
-        setOrder('ASC')
+    function orderASC(){ setOrder('ASC') }
+    function orderDESC(){setOrder('DESC') }
 
-        
-        if(orderBy === 'Name') props.orderPokemon(props.pokemosAll,order);  
-        if(orderBy === 'Attack') props.orderPokemonbyAttack(props.pokemosAll,order);  
-        
-    }
-    function orderDESC(){
-        setRender(render+1); 
-        setOrder('DESC')
-        if(orderBy === 'Name') props.orderPokemon(props.pokemosAll,order);  
-        if(orderBy === 'Attack') props.orderPokemonbyAttack(props.pokemosAll,order);  
-        
-        
+    function BuscarPokemon (){ props.getPokemonByName(props.pokemosAll,nameBuscar); }
 
-                          
-    }
-
-  
-    
-
-    function BuscarPokemon (){
-        props.getPokemonByName(props.pokemosAll,nameBuscar);     
-    }
-
-    function onChange(e){
-        setNameBuscar(e.target.value)
-    }
+    function onChange(e){ setNameBuscar(e.target.value) }
 
     function handleSelectChange(e){
         setOrderBy(e.target.value);

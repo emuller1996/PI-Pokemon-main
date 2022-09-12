@@ -42,7 +42,7 @@ const { Pokemon,Tipo } = sequelize.models;
 Pokemon.belongsToMany(Tipo, { through: 'PokemonTipo' });
 Tipo.belongsToMany(Pokemon, { through: 'PokemonTipo' });
 
-sequelize.query('ALTER  SEQUENCE "Pokemons_id_seq" RESTART WITH 21;');
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

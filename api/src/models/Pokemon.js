@@ -5,8 +5,8 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('Pokemon', {
     id : {
-      type: DataTypes.INTEGER,
-			autoIncrement: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1, 
 			primaryKey: true
     },
     nombre: {
@@ -30,6 +30,10 @@ module.exports = (sequelize) => {
     },
     peso : {
       type: DataTypes.INTEGER,
+    },
+    image : {
+      type: DataTypes.TEXT,
+      defaultValue: 'https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c31f.png'
     }
   });
 };
