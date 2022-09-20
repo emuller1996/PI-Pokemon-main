@@ -1,5 +1,5 @@
 .form-new{
-    background-color: #8fca8f;
+    background-color: var(--bg-blue-60);
     margin-left: auto;
     margin-right: auto;
     width: 60%;
@@ -23,7 +23,7 @@
     margin-right: 0.2rem;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
-    border: 2px solid #308030;
+    border: 2px solid var(--bg-blue-p);
     outline: none;
 }
 
@@ -37,7 +37,7 @@
     margin-right: 0.2rem;
     margin-bottom: 0.5rem;
     margin-top: 0.5rem;
-    border: 2px solid #803030;
+    border: 3px solid #803030;
     outline: none;
 }
 .danger{

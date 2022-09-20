@@ -1,3 +1,21 @@
+:root {
+  --bg-blue-p: #2e4595;
+  --bg-blue-s: #1a1e4b;
+  --bg-blue-60:#d5daea;
+  --bg-amarillo-p: #fec10e;
+  --bg-amarillo-50 :#ffe087;
+  --bg-yellow: #ffc107;
+  --bg-white: #fff;
+  --bg-gray: #6c757d;
+  --bg-gray-dark: #343a40;
+  --bg-secondary: #6c757d;
+  --bg-success: #198754;
+  --bg-light: #f8f9fa;
+  --bg-dark: #212529;
+  --bordeado : 0.5rem;
+}
+
+
 .App {
   text-align: center;
 }
@@ -7,7 +25,7 @@
   
 }
 body{
-  background-color: #e4f5dc;
+  background-color:var(--bg-light);
 }
 
 .App-logo {

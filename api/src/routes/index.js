@@ -13,6 +13,7 @@ const router = Router();
 
 router.get('/pokemon', async (req, res) =>{
     const name = req.query.name;
+    var pokemons;
     const pokemonDB = await  Pokemon.findAll({
         include : { model: Tipo, as: 'types' } 
     });
@@ -21,17 +22,23 @@ router.get('/pokemon', async (req, res) =>{
         const pokemon = result.data;
         res.json({pokemon});
     }else{
-        const result = await axios.get('https://pokeapi.co/api/v2/pokemon')
-        const pokemons = result.data.results;   
-        const p =  pokemons.map( async (p) => {
-            const result = await axios.get(p.url);
-            return  Object.assign(p,{ 
-                img : result.data.sprites.other.dream_world.front_default, 
-                types : result.data.types,
-                id : result.data.id,
-                ataque :  result.data.stats[1].base_stat });
-        })         
-         await Promise.all(p)            
+        try {
+            const result = await axios.get('https://pokeapi.co/api/v2/pokemon')
+            pokemons = result.data.results;   
+            const p =  pokemons.map( async (p) => {
+                const result = await axios.get(p.url);
+                return  Object.assign(p,{ 
+                    img : result.data.sprites.other.dream_world.front_default, 
+                    types : result.data.types,
+                    id : result.data.id,
+                    ataque :  result.data.stats[1].base_stat });
+            })         
+            await Promise.all(p)  
+        
+        } catch (error) {
+            pokemons = []
+        }
+                  
          var pkAll = pokemons.concat(JSON.parse(JSON.stringify(pokemonDB)))
         res.json({pokemons : pkAll});
     }   

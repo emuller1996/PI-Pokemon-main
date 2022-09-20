@@ -7,7 +7,7 @@
     padding: 50px;
     position: relative;
     z-index: 2;
-    background-color: rgba(48, 128, 48, 0.589);
+    background-color: rgba(60, 48, 128, 0.589);
     text-align: center;
     color: #fff;
     font-weight: bold;
@@ -21,7 +21,7 @@
     position: relative;
     z-index: 2;
     color: #fff;
-    background-color: #308030;
+    background-color: var(--bg-blue-p);
     font-weight: bold;
     font-size: 1.2rem;
     border: 3px solid #fff;
@@ -34,11 +34,11 @@
     padding: 1rem 2rem ;
     position: relative;
     z-index: 2;
-    color: #308030;
+    color: var(--bg-blue-p);
     background-color: #fff;
     font-weight: bold;
     font-size: 1.2rem;
-    border: 3px solid #308030;
+    border: 3px solid var(--bg-blue-p);
     box-shadow:2rem;
     border-radius:1em;
 }

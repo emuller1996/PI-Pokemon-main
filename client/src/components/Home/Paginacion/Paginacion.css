@@ -5,7 +5,7 @@
     margin-left: auto;
     margin-right: auto;
     padding: 0.5rem;
-    background-color:#8fca8f;
+    background-color:var(--bg-blue-60);
     width: 75%;
     border-radius:1rem;
 }
@@ -27,7 +27,7 @@
     text-decoration: none;
     border: #fff solid 1px;
     border-radius:0.5rem;
-    background-color: #308030;
+    background-color: var(--bg-blue-p);
     font-weight: 900;
 }
 
@@ -35,9 +35,9 @@
     cursor: pointer;
     display: block;
     padding: 10px 20px;
-    color: #308030;
+    color: var(--bg-blue-p);
     text-decoration: none;
-    border: #308030 solid 1px;
+    border: var(--bg-blue-p) solid 1px;
     border-radius:0.5rem;
     background-color: #fff;
     font-weight: 900;
