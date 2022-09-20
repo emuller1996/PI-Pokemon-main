@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
       defaultValue: DataTypes.UUIDV1, 
 			primaryKey: true
     },
-    nombre: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
     peso : {
       type: DataTypes.INTEGER,
     },
-    image : {
+    img : {
       type: DataTypes.TEXT,
       defaultValue: 'https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c31f.png'
     }

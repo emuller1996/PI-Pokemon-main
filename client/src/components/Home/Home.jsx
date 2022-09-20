@@ -1,7 +1,8 @@
 import React, {useEffect,useState} from 'react';
 import { connect } from "react-redux";
-import { getPokemos, orderPokemon,getPokemonByName , changeOrder, orderPokemonbyAttack} from "../../actions/index";
+import { getPokemos, orderPokemon,getPokemonByName , changeOrder, orderPokemonbyAttack, filterPokemon} from "../../actions/index";
 import {Link} from 'react-router-dom';
+import logoPokemon from '../../pokemon-logo.png';
 
 import './Home.css';
 import ListaPokemos from './ListaPokemos/ListaPokemons';
@@ -13,13 +14,22 @@ const Home = (props)=>{
     const [nameBuscar,setNameBuscar] = useState('');
     const [orderBy,setOrderBy] = useState('Name');
     const [render,setRender] = useState(false);
+    const [error,setError] = useState({});
+    const [filterPokemon,setFilterPokemon] = useState('');
 
     const [paginaActual,setPaginaActual] = useState(1);
     const [pokemonPorPagina,setPokemonPorPagina] = useState(12);
   
     useEffect(  ()=>{  
-        getPokemos();
-    },[props.pokemosAll]);
+
+        try {
+            getPokemos();
+            
+        } catch (error) {
+            setError(error);
+        }
+        
+    },[]);
 
 
     useEffect(  ()=>{          
@@ -34,6 +44,16 @@ const Home = (props)=>{
             }            
         }      
     },[order,orderBy,props.pokemosAll]);
+
+    useEffect(  ()=>{
+        
+        console.log('filterUpdate')
+          
+        props.filterPokemon(props.pokemosAll,filterPokemon);
+        setRender(!render); 
+        getPokemos();  
+
+    },[filterPokemon])
 
 
 
@@ -58,10 +78,14 @@ const Home = (props)=>{
         setOrderBy(e.target.value);
     }
 
+    function handleFilterChange(e){ 
+         
+        setFilterPokemon(e.target.value) }
+
 
     return (
         <div>
-            <h1>HOME POKEMON APP</h1>
+            <img src={logoPokemon} alt="LOGO_POKEMON_NINTENDO" />
             <div className='nav-content'>
                 <div className='row' >
                 <Link to='/create' className='btn-buscar'> <i className="fas fa-plus-circle"></i> Nuevo Pokemon</Link>
@@ -79,9 +103,10 @@ const Home = (props)=>{
                     </select>
                 </div>
                 
-                <select class="filter-select" id="filter">
-                    <option value="Creados">Creados</option>
-                    <option value="Existentes">Existentes</option>
+                <select class="filter-select" name="filter" id="filter" onChange={handleFilterChange}>
+                    <option value="Todos">Todos</option>
+                    <option disabled={filterPokemon === 'Existentes' ? true : false} value="Creados">Creados</option>
+                    <option disabled={filterPokemon === 'Creados' ? true : false} value="Existentes" >Existentes</option>
 
                 </select>
                     
@@ -116,7 +141,9 @@ function mapStateToProps(state) {
         getPokemos: dispatch(getPokemos()),
         orderPokemon : (pokemon,order) => dispatch(orderPokemon(pokemon,order)),
         getPokemonByName : (pokemons,name) => dispatch(getPokemonByName(pokemons,name)),
-        orderPokemonbyAttack : (pokemon,order) => dispatch(orderPokemonbyAttack(pokemon,order))
+        orderPokemonbyAttack : (pokemon,order) => dispatch(orderPokemonbyAttack(pokemon,order)),
+        filterPokemon : (pokemon,filter) => dispatch(filterPokemon(pokemon,filter))
+
     };
   }
   

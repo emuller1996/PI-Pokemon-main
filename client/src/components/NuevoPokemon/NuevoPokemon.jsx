@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import './NuevoPokemon.css';
 import { connect } from "react-redux";
 import { getTypes } from "../../actions/index";
-import {validate} from '../../helpers/index';
+import {validateName,validateStast} from '../../helpers/index';
+
+import axios  from 'axios';
 
 
 
@@ -12,15 +14,18 @@ const NuevoPokemon = (props)=>{
 
     const [errors, setErrors] = React.useState({});
     const [types,setTypes] = useState([]);
-    const [input, setInput] = React.useState({
+    const [name, setName] = React.useState({
         name: '',
-        vida: '',
-        ataque: '',
-        defensa: '',
-        velocidad: '',
-        peso: '',
-        altura: '',
+        
       }); 
+    const [stats,setStats] = React.useState({
+        vida: 0,
+        ataque: 0,
+        defensa: 0,
+        velocidad: 0,
+        peso: 0,
+        altura: 0,
+    });
 
 
 
@@ -32,19 +37,65 @@ const NuevoPokemon = (props)=>{
 
 
     const handleTypeChange = function (e) {
-        setTypes( [...types,e.target.value ] );
+        setTypes( [...types,{id : e.target.value , name : e.target.name } ] );
       };
 
 
     const handleInputChange = function (e) {
-        setInput({
-          ...input,
+        setName({
+          ...name,
           [e.target.name]: e.target.value
         });
-        setErrors(validate({
-          ...input,
+        setErrors(validateName({
+          ...name,
           [e.target.name]: e.target.value
         }));
+    }
+
+    const handleStatsChange = function (e) {
+        setStats({
+            ...stats,
+            [e.target.name]: parseInt(e.target.value, 10)
+          });
+
+          setErrors(validateName({
+            ...stats,...name,
+            [e.target.name]: e.target.value
+          }));
+        
+    
+
+    }
+
+
+    const onSubmit = async function (e){
+        e.preventDefault();
+        
+
+        const ob = Object.assign(name, stats,{types} )
+        console.log(ob);
+
+        try {
+
+             await fetch('http://localhost:3001/pokemon',{
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(ob), // data can be `string` or {object}!
+            headers:{
+              'Content-Type': 'application/json'
+            }
+        })
+            
+        } catch (error) {
+            console.log(error);
+        }
+        
+        
+
+        
+
+
+
+
     }
 
 
@@ -53,63 +104,95 @@ const NuevoPokemon = (props)=>{
 
         <div>
             <h2>Nuevo Pokemon</h2>
-            <form className='form-new' action="">
+            <form className='form-new' action=""  onSubmit={onSubmit} autocomplete="off">
                 <table>
-                    <tr>
-                        <td colSpan={4} >
-                            <input className={errors.name ? 'input-error' : 'input-form'} type="text" placeholder='Nombre' name='name' onChange={(e) => handleInputChange(e)} value={input.name} />
-                                {errors.name && (
-                                    <p className="danger">{errors.name  }</p>
-                                )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={4} >Estadisticas</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input className={errors.vida ? 'input-error' : 'input-form'} type="number" name="vida" id="vida"  placeholder='Vida' onChange={(e) => handleInputChange(e)} value={input.vida} />
-                            {errors.vida && (
-                                    <p className="danger">{errors.vida  }</p>
-                                )}
-                        </td>
-                        <td>
-                            <input className='input-form' type="number" name="ataque" id="ataque" placeholder='Ataque' onChange={(e) => handleInputChange(e)} value={input.ataque} />
-                            {errors.ataque && (
-                                    <p className="danger">{errors.ataque  }</p>
-                                )}                 
-                        </td>
-                        <td><input className='input-form' type="number" name="defensa" id="defensa" placeholder='defensa'/></td>
-                        <td><input className='input-form' type="number" name="velocidad" id="velocidad" placeholder='velocidad'/></td>
-
-
-                    </tr>
-                    <tr>
-                        <td colSpan={2} ><input className='input-form' type="number" name="peso" id="peso" placeholder='Peso'/></td>
-                        <td colSpan={2} ><input className='input-form' type="number" name="altura" id="altura" placeholder='Altura'/></td>
-
-                    </tr>
-                    <tr>
-                        <td colSpan={4} >Tipo</td>
-                    </tr>
-                    <tr>
-                        <td colSpan={4}>
-
-                        {props.types.length !== 0 ? props.types.map(t => (
-                            <label key={t.name}>
-                                <input type="checkbox" id="cbox1" value={t.name} onChange={(e)=>handleTypeChange(e)} /> {t.name}
-                            
-                            </label>
-                        )) : <p>Cargando . . . </p> }
-                        </td>
+                    <thead>
+                        <tr>   
+                            <th colSpan={4}>
+                                Ingrese los datos del pokemon nuevo.                            
+                            </th>
+                        </tr>
                         
-                    </tr>
-                    <tr>
-                        <td colSpan={4} >
-                            {errors.name  || errors.vida ?   <input  className='btn-buscar' disabled type="submit" value="Guardar"   /> : <input  className='btn-buscar' type="submit" value="Guardar"  />}
-                           
-                        </td>
-                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colSpan={4} >
+                                <label htmlFor="name">Nombre : </label>
+                                <input className={errors.name ? 'input-error' : 'input-form'} type="text" placeholder='Pika Pika' name='name' onChange={(e) => handleInputChange(e)} value={name.name} />
+                                    {errors.name && (
+                                        <span className="danger">{errors.name  }</span>
+                                    )}
+                            </td>
+                            
+                        </tr>
+                
+                        <tr>
+                            <td>
+                                <label htmlFor="">Vida : </label>
+                                <input className={errors.vida ? 'input-error' : 'input-form'} type="number" name="vida" id="vida"  placeholder='1-100' onChange={(e) => handleStatsChange(e)} value={stats.vida} />
+                                {errors.vida && (
+                                        <span className="danger">{errors.vida  }</span>
+                                    )}
+                            </td>
+                            <td>
+                                <label htmlFor="">Ataque : </label>
+                                <input className={errors.ataque ? 'input-error' : 'input-form'} type="number" name="ataque" id="ataque" placeholder='1-100' onChange={(e) => handleStatsChange(e)} value={stats.ataque} />
+                                {errors.ataque && (
+                                        <p className="danger">{errors.ataque  }</p>
+                                    )}                 
+                            </td>
+                            
+
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="">Defensa : </label>
+                                <input className={errors.defensa ? 'input-error' : 'input-form'} type="number" name="defensa" id="defensa" placeholder='1-100' onChange={(e) => handleStatsChange(e)} value={stats.defensa} />
+                            </td>
+                            <td>
+                                <label htmlFor="">Velocidad : </label>
+                                <input className={errors.velocidad ? 'input-error' : 'input-form'} type="number" name="velocidad" id="velocidad" placeholder='1-100' onChange={(e) => handleStatsChange(e)} value={stats.velocidad} />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td >
+                                <label htmlFor="">Peso : </label>
+                                <input className={errors.peso ? 'input-error' : 'input-form'} type="number" name="peso" id="peso" placeholder='1-1000' onChange={(e) => handleStatsChange(e)} value={stats.peso} />
+                            </td>
+                            <td >
+                                <label htmlFor="">Altura : </label>
+                                <input className={errors.altura ? 'input-error' : 'input-form'} type="number" name="altura" id="altura" placeholder='1-22' onChange={(e) => handleStatsChange(e)} value={stats.altura} />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colSpan={4} >Tipo</td>
+                        </tr>
+                        <tr>
+                            <td colSpan={4}>
+
+                            {props.types.length !== 0 ? props.types.map(t => (
+                                <label key={t.name}>
+                                    <input type="checkbox" id="cbox1" value={t.id} name={t.name} onChange={(e)=>handleTypeChange(e)} /> {t.name}
+                                
+                                </label>
+                            )) : <p>Cargando . . . </p> }
+                            </td>
+                            
+                        </tr>
+                        <tr>
+                            <td colSpan={4} >
+                                {Object.values(errors).length !== 0  ?   <input  className='btn-buscar' disabled type="submit" value="Guardar"   /> : <input  className='btn-buscar' type="submit" value="Guardar"  />}
+                            
+                            </td>
+                        </tr>
+
+
+
+                    </tbody>
+                    
                 </table>
             </form>
         </div>

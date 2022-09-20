@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {compare_name,compare_attack} from '../helpers/index';
+import { validate  } from 'uuid';
 
 export const GET_POKEMOS = "GET_POKEMOS";
 export const GET_POKEMOS_DETALLE = "GET_POKEMOS_DETALLE";
@@ -8,6 +9,7 @@ export const ORDER_POKEMON_BY_ATTACK = 'ORDER_POKEMON_BY_ATTACK';
 
 export const GET_TYPES = 'GET_TYPES';
 export const GET_POKEMON_BY_NAME = "GET_POKEMON_BY_NAME";
+export const FILTER_POKEMON = 'FILTER_POKEMON';
 export const CHANGE_ORDER = "CHANGE_ORDER";
 
 
@@ -83,6 +85,27 @@ export function getPokemonByName(pokemons,name){
   return function (dispatch){
     return dispatch({ type: GET_POKEMON_BY_NAME, payload: pokemons.filter( p => p.name===name ) });
   }
+}
+
+export function filterPokemon(pokemons,filter){
+  return  async function (dispatch){
+    if(filter === "Creados") {
+      console.log(filter)
+      return dispatch({ type: FILTER_POKEMON, payload: pokemons.filter( p =>validate(p.id) ) });
+    }
+    if(filter === "Existentes") {
+      console.log(filter)
+      return dispatch({ type: FILTER_POKEMON, payload: pokemons.filter( p => typeof p.id === "number") });
+    }
+    if(filter === 'Todos'){
+      const result = await axios.get("http://localhost:3001/pokemon");
+        return dispatch({ type: GET_POKEMOS, payload: result.data.pokemons });
+    }
+
+
+  }
+  
+
 }
 
 

@@ -14,7 +14,7 @@ const CardPokemon = (props)=>{
             <ul className='tipes'>
             <p>Tipos</p>
             {props.pokemon.types.map( t => (
-                <li>{t.type.name}</li>
+                <li>{ t.type ?  t.type.name :t.name}</li>
             ))}
             </ul>
             

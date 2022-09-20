@@ -5,8 +5,8 @@ import {
   GET_POKEMOS_DETALLE, 
   GET_POKEMON_BY_NAME,
   CHANGE_ORDER,
-  ORDER_POKEMON_BY_ATTACK
-
+  ORDER_POKEMON_BY_ATTACK,
+  FILTER_POKEMON
 } from "../actions/index";
 
 const initialState = {
@@ -45,6 +45,12 @@ function rootReducer(state = initialState, action) {
       };
     }
 
+    if(action.type ===FILTER_POKEMON){
+      return {
+        ...state,
+        pokemosAll: action.payload,
+      };
+    }
 
     if(action.type ===CHANGE_ORDER){
       return {
