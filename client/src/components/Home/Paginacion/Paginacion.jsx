@@ -13,8 +13,8 @@ const Paginacion = ({PokemonPorPagina,TotalPokemon,Paginar})=>{
         <nav className="paginacion-nav">
             <ul>
                 {NumeroDePaginas.map( n => (
-                    <li key={n} onClick={()=> Paginar(n)}>
-                        <a >{n}</a>
+                    <li  key={n} onClick={()=> Paginar(n)}>
+                        <a>{n}</a>
                     </li>
                 ))}
             </ul>

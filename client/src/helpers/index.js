@@ -15,6 +15,12 @@ export function compare_attack( a, b ){
     return 0;
 }
 
+export function compare_vida( a, b ){
+  if(a.vida > b.vida) return -1
+  if(a.vida < b.vida) return 1
+  return 0;
+}
+
 
 export function validateName(input) {
   let errors = {};

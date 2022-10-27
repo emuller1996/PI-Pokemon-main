@@ -1,8 +1,19 @@
 .card-pokemon{
-    border:var(--bg-blue-p) 3px solid;
+    border:var(--bg-blue-p) 2px solid;
     width: 25%;
     border-radius:var(--bordeado);
     background-color:var(--bg-blue-60);
+    box-shadow:0px 0px 5px 1px var(--bg-blue-p);
+    text-decoration: none;
+    cursor: pointer;
+    transform: scale(1);
+    transition: 0.3s ease-in-out;
+}
+
+.card-pokemon:hover{
+    transform: scale(1.03);
+    box-shadow:0px 0px 5px 1px var(--bg-amarillo-p);
+    border:var(--bg-amarillo-p) 2px solid;
 }
 
 .img-pokemon{
@@ -12,20 +23,9 @@
 }
 
 
-.card-pokemon h2 a{
-    text-decoration: none;
-    font-style: none;
-    font-size: 2rem;
-    color: var(--bg-blue-p);
-}
-
-
-.card-pokemon h2 a:hover {
-    cursor: pointer;
-    text-decoration: none;
-    font-style: none;
+.card-pokemon h2 {
     font-size: 2.2rem;
-    color: var(--bg-amarillo-p);
+    color: var(--bg-blue-p);
 }
 
 .card-pokemon ul{
@@ -33,16 +33,40 @@
     margin: 1.5rem;
     padding-bottom: 0.5rem;
     background-color:var(--bg-amarillo-p);
-    border:var(--bg-blue-p) 3px solid;
+    border:var(--bg-blue-p) 2px solid;
     border-radius:var(--bordeado);
     color: var(--bg-blue-p);
     text-align: center;
-    font-weight: 700;
+    font-weight: 600;
+    box-shadow: 0px 0px 10px 0px var(--bg-blue-p) inset;
 
+
+}
+.card-pokemon ul li {
+    text-align: left;
+    font-style: oblique;
 
 }
 
 .card-pokemon ul p{
     margin: 0;
     padding: 0;
+}
+
+
+.card-message{
+    border: var(--bg-success) 2px solid;
+    border-radius:var(--bordeado);
+    padding: 0.5em 0.5em 0.5em;
+    box-shadow: 0px 0px 5px 0px var(--bg-success) ;
+}
+
+.title-message{
+    color: var(--bg-success);
+}
+
+.body-message{
+    color: var(--bg-success);
+    font-size:0.7rem;
+    
 }

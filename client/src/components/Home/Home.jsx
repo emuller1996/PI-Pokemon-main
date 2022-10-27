@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import { connect } from "react-redux";
-import { getPokemos, orderPokemon,getPokemonByName , changeOrder, orderPokemonbyAttack, filterPokemon} from "../../actions/index";
+import { getPokemos, orderPokemon,getPokemonByName , changeOrder, orderPokemonbyAttack,  orderPokemonbyVida , filterPokemon} from "../../actions/index";
 import {Link} from 'react-router-dom';
 import logoPokemon from '../../pokemon-logo.png';
 
@@ -41,6 +41,10 @@ const Home = (props)=>{
             if(orderBy === 'Attack'){
                 props.orderPokemonbyAttack(props.pokemosAll,order); 
                 setRender(!render); 
+            }
+            if(orderBy === 'vida'){
+                props.orderPokemonbyVida(props.pokemosAll,order);
+                setRender(!render);
             }            
         }      
     },[order,orderBy,props.pokemosAll]);
@@ -67,8 +71,7 @@ const Home = (props)=>{
         setPaginaActual(numeroPagina);
     }
 
-    function orderASC(){ setOrder('ASC') }
-    function orderDESC(){setOrder('DESC') }
+    function handleOrder(e){ setOrder(e.target.value)}
 
     function BuscarPokemon (){ props.getPokemonByName(props.pokemosAll,nameBuscar); }
 
@@ -94,21 +97,35 @@ const Home = (props)=>{
                     
                 </div>
                 <div className='row'>
-                <div>
-                    <button onClick={()=>{ orderASC();  }} className='btn-buscar' name='ASC' > <i className="fas fa-sort-alpha-down"></i> ASC</button>
-                    <button onClick={orderDESC} className='btn-buscar' name='DESC' > <i className="fas fa-sort-alpha-down-alt"></i> DESC</button>
-                    <select class="order-select btn-buscar" id="order" name='' onChange={handleSelectChange}>
-                        <option value="Name">Name</option>
-                        <option value="Attack">Attack</option>
-                    </select>
-                </div>
-                
-                <select class="filter-select" name="filter" id="filter" onChange={handleFilterChange}>
-                    <option value="Todos">Todos</option>
-                    <option disabled={filterPokemon === 'Existentes' ? true : false} value="Creados">Creados</option>
-                    <option disabled={filterPokemon === 'Creados' ? true : false} value="Existentes" >Existentes</option>
+                    <div>
+                        
+                    
+                        <span>Order By </span>
+                        <select class="select " id="orderBy" name='' onChange={handleSelectChange}>
+                            <option value="Name">Name</option>
+                            <option value="Attack">Attack</option>
+                            <option value="vida">Vida</option>
 
-                </select>
+                        </select>
+
+                        <select class="select " id="order" name='' onChange={handleOrder}>
+                            <option value="ASC"> ASC</option>
+                            <option value="DESC">DESC</option>
+                        </select>
+
+                    </div>
+                
+                    <div>
+                        <span>Filter By </span>
+                        <select class="select" name="filter" id="filter" onChange={handleFilterChange}>
+                            <option value="Todos">Todos</option>
+                            <option disabled={filterPokemon === 'Existentes' ? true : false} value="Creados">Creados</option>
+                            <option disabled={filterPokemon === 'Creados' ? true : false} value="Existentes" >Existentes</option>
+
+                        </select>
+
+                    </div>
+                
                     
                 </div>
 
@@ -142,6 +159,7 @@ function mapStateToProps(state) {
         orderPokemon : (pokemon,order) => dispatch(orderPokemon(pokemon,order)),
         getPokemonByName : (pokemons,name) => dispatch(getPokemonByName(pokemons,name)),
         orderPokemonbyAttack : (pokemon,order) => dispatch(orderPokemonbyAttack(pokemon,order)),
+        orderPokemonbyVida : (pokemon,order) => dispatch(orderPokemonbyVida(pokemon,order)),
         filterPokemon : (pokemon,filter) => dispatch(filterPokemon(pokemon,filter))
 
     };

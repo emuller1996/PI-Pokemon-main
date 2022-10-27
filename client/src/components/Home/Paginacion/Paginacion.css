@@ -31,7 +31,7 @@
     font-weight: 900;
 }
 
-.paginacion-nav ul li a:hover{
+.paginacion-nav ul li a:hover, .active{
     cursor: pointer;
     display: block;
     padding: 10px 20px;

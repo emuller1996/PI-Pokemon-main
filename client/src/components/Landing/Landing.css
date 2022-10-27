@@ -29,6 +29,17 @@
     border-radius:1em;
 }
 
+.img_landing button a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.img_landing button a:hover {
+    text-decoration: none;
+    color: var(--bg-blue-p);
+
+}
+
 .img_landing button:hover {
     cursor: pointer;
     padding: 1rem 2rem ;

@@ -16,16 +16,17 @@ const NuevoPokemon = (props)=>{
     const [types,setTypes] = useState([]);
     const [name, setName] = React.useState({
         name: '',
-        
       }); 
     const [stats,setStats] = React.useState({
-        vida: 0,
+        /* vida: 0,
         ataque: 0,
         defensa: 0,
         velocidad: 0,
         peso: 0,
-        altura: 0,
+        altura: 0, */
     });
+
+    const [response,setResponse] = useState(false);
 
 
 
@@ -33,11 +34,15 @@ const NuevoPokemon = (props)=>{
     useEffect(()=>{
 
         getTypes();
-    },[])
+    },[response])
 
 
     const handleTypeChange = function (e) {
-        setTypes( [...types,{id : e.target.value , name : e.target.name } ] );
+        if(e.target.checked) {
+            setTypes( [...types,{id : e.target.value , name : e.target.name } ] );
+            e.target.checked=true;
+            e.target.disabled=true;
+        }
       };
 
 
@@ -77,13 +82,27 @@ const NuevoPokemon = (props)=>{
 
         try {
 
-             await fetch('http://localhost:3001/pokemon',{
+            const r = await fetch('http://localhost:3001/pokemons',{
             method: 'POST', // or 'PUT'
             body: JSON.stringify(ob), // data can be `string` or {object}!
             headers:{
               'Content-Type': 'application/json'
             }
         })
+
+        setResponse(r.ok)
+        setName({
+            name: '',
+        });
+        setStats({
+            vida: '',
+            ataque: '',
+            defensa: '',
+            velocidad: '',
+            peso: '',
+            altura: '',
+        });
+        setTypes([]);
             
         } catch (error) {
             console.log(error);
@@ -103,13 +122,23 @@ const NuevoPokemon = (props)=>{
     return (
 
         <div>
+
+            
+
             <h2>Nuevo Pokemon</h2>
             <form className='form-new' action=""  onSubmit={onSubmit} autocomplete="off">
                 <table>
                     <thead>
                         <tr>   
                             <th colSpan={4}>
-                                Ingrese los datos del pokemon nuevo.                            
+                            {response ? (
+                            <div className='card-message'>
+                                <div className='title-message' >  <i className="fas fa-thumbs-up"></i> Pokemon Agregado. </div>
+                                <div className='body-message' > El Pokemon ha sido ingresado correctamente en la base de datos. </div>
+                            </div> 
+                            
+                            ): 'Ingrese los datos del pokemon nuevo.' }
+                                                            
                             </th>
                         </tr>
                         
@@ -172,13 +201,16 @@ const NuevoPokemon = (props)=>{
                         </tr>
                         <tr>
                             <td colSpan={4}>
-
+                            <div className="types-content">
                             {props.types.length !== 0 ? props.types.map(t => (
                                 <label key={t.name}>
-                                    <input type="checkbox" id="cbox1" value={t.id} name={t.name} onChange={(e)=>handleTypeChange(e)} /> {t.name}
+                                    <input  type="checkbox"  id="cbox1" value={t.id} name={t.name} onChange={(e)=>handleTypeChange(e)} /> {t.name}
                                 
                                 </label>
                             )) : <p>Cargando . . . </p> }
+
+                            </div>
+                            
                             </td>
                             
                         </tr>
@@ -194,6 +226,7 @@ const NuevoPokemon = (props)=>{
                     </tbody>
                     
                 </table>
+                
             </form>
         </div>
     )

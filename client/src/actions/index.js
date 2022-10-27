@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {compare_name,compare_attack} from '../helpers/index';
+import {compare_name,compare_attack, compare_vida} from '../helpers/index';
 import { validate  } from 'uuid';
 
 export const GET_POKEMOS = "GET_POKEMOS";
@@ -28,14 +28,14 @@ export function  getPokemos() {
           dispatch({ type: GET_POKEMOS, payload: json.pokemons });
         }); */
 
-        const result = await axios.get("http://localhost:3001/pokemon");
+        const result = await axios.get("http://localhost:3001/pokemons");
         return dispatch({ type: GET_POKEMOS, payload: result.data.pokemons });
     };
 }
 
 export function getPokemonDetalle(id){
   return async function (dispatch) {
-    const result = await axios.get(`http://localhost:3001/pokemon/${id}`);
+    const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
         return dispatch({ type: GET_POKEMOS_DETALLE, payload: result.data.pokemon });
   }
 }
@@ -73,6 +73,21 @@ export function orderPokemonbyAttack(Pokemon,order){
 
 }
 
+export function orderPokemonbyVida(Pokemon,order){
+  return function(dispatch){
+
+    Pokemon.sort(compare_vida);
+
+    if(order === 'ASC'){
+      return dispatch({ type: ORDER_POKEMON_BY_ATTACK, payload: Pokemon });
+    }else if(order === 'DESC'){
+      return dispatch({ type: ORDER_POKEMON_BY_ATTACK, payload: Pokemon.reverse() });
+    }
+  }
+
+}
+
+
 export function getTypes(){
   return async function (dispatch) {
       const result = await axios.get("http://localhost:3001/types");
@@ -98,7 +113,7 @@ export function filterPokemon(pokemons,filter){
       return dispatch({ type: FILTER_POKEMON, payload: pokemons.filter( p => typeof p.id === "number") });
     }
     if(filter === 'Todos'){
-      const result = await axios.get("http://localhost:3001/pokemon");
+      const result = await axios.get("http://localhost:3001/pokemons");
         return dispatch({ type: GET_POKEMOS, payload: result.data.pokemons });
     }
 

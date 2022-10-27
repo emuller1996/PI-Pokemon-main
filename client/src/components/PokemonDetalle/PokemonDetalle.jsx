@@ -30,39 +30,35 @@ const PokemonDetalle =(props)=>{
 
                 
                     <img src={props.pokemonDetalle.sprites ? props.pokemonDetalle.sprites.other.dream_world.front_default : props.pokemonDetalle.img } alt="asd" />
-                    <h1>{props.pokemonDetalle.name}</h1>
-                    <h3 > ID  : {props.pokemonDetalle.id}</h3>
-                    <div className='detalle-flex'>
-                        <ul className='tipes'>
-                            <p>Tipos</p>
-                            {props.pokemonDetalle.types.map( t => (
-                                 t.type ?  <li key={t.name}>{t.type.name}</li>  : <li key={t.name}>{t.name}</li>
-                            ))}
-                        </ul>
+                    <div className='body-card'>
+                        <h1>{props.pokemonDetalle.name}</h1>
+                        <h3 > ID  : {props.pokemonDetalle.id}</h3>
+                        <div className='detalle-flex'>
+                            <ul className='tipes'>
+                                <p>Tipos</p>
+                                {props.pokemonDetalle.types.map( t => (
+                                    t.type ?  <li key={t.name}>{t.type.name}</li>  : <li key={t.name}>{t.name}</li>
+                                ))}
+                            </ul>
 
-                        <ul className='stats'>
-                            <p>Stats</p>
-                            { props.pokemonDetalle.stats ? props.pokemonDetalle.stats.map( s => (
-                                <li key={s.name}> {`${s.stat.name} :  ${s.base_stat}`}</li>
-                            )) : ( <>
-                                    <li> hp :  {props.pokemonDetalle.vida}</li>
-                                    <li> attack  :  {props.pokemonDetalle.ataque}</li>
-                                    <li> defense   :  {props.pokemonDetalle.defensa}</li>
-                                    <li> speed   :  {props.pokemonDetalle.velocidad}</li>
-                                </>
-                            )}
-                        </ul>
+                            <ul className='stats'>
+                                <p>Stats</p>
+                                { props.pokemonDetalle.stats ? props.pokemonDetalle.stats.map( s => (
+                                    <li key={s.name}> {`${s.stat.name} :  ${s.base_stat}`}</li>
+                                )) : ( <>
+                                        <li> hp :  {props.pokemonDetalle.vida}</li>
+                                        <li> attack  :  {props.pokemonDetalle.ataque}</li>
+                                        <li> defense   :  {props.pokemonDetalle.defensa}</li>
+                                        <li> speed   :  {props.pokemonDetalle.velocidad}</li>
+                                    </>
+                                )}
+                            </ul>
 
-                        <ul className='tipes'>
-                            
-                            <li> Peso : {props.pokemonDetalle.weight ? props.pokemonDetalle.weight : props.pokemonDetalle.peso } Kg</li>
-                            <li> Altura : {props.pokemonDetalle.height ? props.pokemonDetalle.height : props.pokemonDetalle.altura } m</li>
-
-                            
-                        </ul>
-
-
-
+                            <ul className='tipes'>
+                                <li> Peso : {props.pokemonDetalle.weight ? props.pokemonDetalle.weight : props.pokemonDetalle.peso } Kg</li>
+                                <li> Altura : {props.pokemonDetalle.height ? props.pokemonDetalle.height : props.pokemonDetalle.altura } m</li>
+                            </ul>
+                        </div>
                     </div>
                 
                 
