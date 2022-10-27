@@ -28,14 +28,14 @@ export function  getPokemos() {
           dispatch({ type: GET_POKEMOS, payload: json.pokemons });
         }); */
 
-        const result = await axios.get("http://localhost:3001/pokemons");
+        const result = await axios.get("/pokemons");
         return dispatch({ type: GET_POKEMOS, payload: result.data.pokemons });
     };
 }
 
 export function getPokemonDetalle(id){
   return async function (dispatch) {
-    const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
+    const result = await axios.get(`/pokemons/${id}`);
         return dispatch({ type: GET_POKEMOS_DETALLE, payload: result.data.pokemon });
   }
 }
