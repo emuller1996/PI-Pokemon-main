@@ -1,20 +1,21 @@
-import React,{useState} from 'react';
-import CardPokemon from '../CardPokemon/CardPokemon';
-import spiner from '../../../Spinner-5.gif';
+import React, { useState } from "react";
+import CardPokemon from "../CardPokemon/CardPokemon";
+import spiner from "../../../Spinner-5.gif";
+import { CircularProgress, Grid } from "@mui/material";
 
-const ListaPokemos = (props)=>{
+const ListaPokemos = (props) => {
+  if (props.pokemons.length === 0)
+    return <CircularProgress />;
 
-
-    if(props.pokemons.length === 0) return ( <img src={spiner} alt="Cargardo . . ." /> )
-
-    
-    return (
-        <>
-            {props.pokemons.map( p => (
-                <CardPokemon  key={p.name} pokemon={p} />
-            ))}
-        </>
-    )
-}
+  return (
+    <Grid container spacing={3} alignItems="center">
+      {props.pokemons.map((p) => (
+        <Grid item xs={12} sm={6} md={4} >
+          <CardPokemon key={p.name} pokemon={p} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
 
 export default ListaPokemos;

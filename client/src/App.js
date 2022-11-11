@@ -5,6 +5,7 @@ import Home from './components/Home/Home';
 import NuevoPokemon from './components/NuevoPokemon/NuevoPokemon';
 import PokemonDetalle from './components/PokemonDetalle/PokemonDetalle';
 
+
 function App() {
   return (
     <div className="App">

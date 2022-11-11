@@ -17,16 +17,10 @@
     
 }
 .img_landing button {
-    padding: 1rem 2rem ;
     position: relative;
     z-index: 2;
-    color: #fff;
-    background-color: var(--bg-blue-p);
-    font-weight: bold;
-    font-size: 1.2rem;
-    border: 3px solid #fff;
-    box-shadow:2rem;
-    border-radius:1em;
+    background-color: #3c3080;
+    
 }
 
 .img_landing button a{
@@ -36,22 +30,13 @@
 
 .img_landing button a:hover {
     text-decoration: none;
-    color: var(--bg-blue-p);
-
 }
 
 .img_landing button:hover {
     cursor: pointer;
-    padding: 1rem 2rem ;
     position: relative;
     z-index: 2;
-    color: var(--bg-blue-p);
-    background-color: #fff;
-    font-weight: bold;
-    font-size: 1.2rem;
-    border: 3px solid var(--bg-blue-p);
-    box-shadow:2rem;
-    border-radius:1em;
+    
 }
 .img_landing img {
     position: absolute;

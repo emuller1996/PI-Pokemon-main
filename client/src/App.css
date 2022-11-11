@@ -1,3 +1,5 @@
+
+@import url('https://fonts.cdnfonts.com/css/nunito');
 :root {
   --bg-blue-p: #2e4595;
   --bg-blue-s: #1a1e4b;
@@ -16,13 +18,20 @@
 }
 
 
+.me-2{
+  margin-right: 0.5em;
+}
+.ms-2{
+  margin-left: 0.5em;
+}
+
 .App {
   text-align: center;
 }
 
 *{
-  font-family:'Nunito Sans','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  
+  font-family:'Nunito',Verdana,'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+
 }
 body{
   background-color:var(--bg-light);
