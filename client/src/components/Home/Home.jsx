@@ -15,13 +15,7 @@ import ListaPokemos from "./ListaPokemos/ListaPokemons";
 import Paginacion from "./Paginacion/Paginacion";
 
 import Box from "@mui/material/Box";
-import {
-  Button,
-  Grid,
-  Input,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button, Grid, Input, MenuItem, Select } from "@mui/material";
 import { Container } from "@mui/system";
 
 const Home = (props) => {
@@ -29,11 +23,11 @@ const Home = (props) => {
   const [nameBuscar, setNameBuscar] = useState("");
   const [orderBy, setOrderBy] = useState("Name");
   const [render, setRender] = useState(false);
-  const [error, setError] = useState({});
+  const [setError] = useState({});
   const [filterPokemon, setFilterPokemon] = useState("");
 
   const [paginaActual, setPaginaActual] = useState(1);
-  const [pokemonPorPagina, setPokemonPorPagina] = useState(12);
+  const [pokemonPorPagina] = useState(12);
 
   useEffect(() => {
     try {
@@ -41,7 +35,7 @@ const Home = (props) => {
     } catch (error) {
       setError(error);
     }
-  }, []);
+  }, [setError]);
 
   useEffect(() => {
     if (order !== "") {
@@ -58,11 +52,9 @@ const Home = (props) => {
         setRender(!render);
       }
     }
-  }, [order, orderBy, props.pokemosAll]);
+  }, [order, orderBy, props.pokemosAll, render]);
 
   useEffect(() => {
-    console.log("filterUpdate");
-
     props.filterPokemon(props.pokemosAll, filterPokemon);
     setRender(!render);
     getPokemos();
@@ -77,7 +69,8 @@ const Home = (props) => {
   }
 
   function handleOrder(e) {
-    setOrder(e.target.value);
+    /* setOrder(e.target.value); */
+    /* setOrder('ASC') */
   }
 
   function BuscarPokemon() {
@@ -98,6 +91,40 @@ const Home = (props) => {
 
   return (
     <div>
+      <div
+        className="container-fluid p-1 mb-4 shadow"
+        style={{ backgroundColor: "#1a1e4b" }}
+      >
+        <div className="row m-0">
+          <div className="col-5">
+            <span
+              className="text-light text-start"
+              style={{ fontSize: "0.7em" }}
+            >
+              <img style={{ width: "1.5em" }} src="/favicon.ico" alt="ICON" />{" "}
+              Henry PI PT-07
+            </span>
+          </div>
+          <div className="col-5">
+            <span className="text-light " style={{ fontSize: "0.7em" }}>
+              Estefano Muller
+            </span>
+            <a
+              href="https://github.com/emuller1996"
+              style={{ fontSize: "0.7em" }}
+            >
+              <i className="fa-brands fa-github ms-2 fa-xl text-warning"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/estefano-m%C3%BCller-3a9b8b237/"
+              style={{ fontSize: "0.7em" }}
+            >
+              <i className="fa-brands fa-linkedin ms-2 fa-xl text-warning"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <Box>
         <img
           style={{ width: "300px" }}
@@ -108,7 +135,7 @@ const Home = (props) => {
 
       <Box
         px={5}
-        mx={4}
+        mx={2}
         mb={3}
         boxShadow={3}
         borderRadius={2}
@@ -142,23 +169,21 @@ const Home = (props) => {
           </Grid>
           <Grid item xs={12} md={4} my={"auto"}>
             <span className="me-2">Sort</span>
-            <Button className="me-2" variant="contained">
-              <i class="fa-solid fa-arrow-up-short-wide "></i>
+            <Button className="me-2" variant="contained" onClick={handleOrder}>
+              <i className="fa-solid fa-arrow-up-short-wide "></i>
             </Button>
             <span className="ms-2">By </span>
-            
-              <Select
-                variant="standard"
-                color="primary"
-                displayEmpty
-            
-              >
-                
-                <MenuItem color="#1a1e4b" value={10}>HP</MenuItem>
-                <MenuItem value={20}>Attack</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            
+
+            <Select
+              variant="standard"
+              color="primary"
+              value={orderBy}
+              displayEmpty
+              onChange={handleSelectChange}
+            >
+              <MenuItem value={"Name"}>Name</MenuItem>
+              <MenuItem value={"vida"}>Hp</MenuItem>
+            </Select>
           </Grid>
         </Grid>
       </Box>
@@ -185,7 +210,7 @@ const Home = (props) => {
           <div>
             <span>Order By </span>
             <select
-              class="select "
+              className="select "
               id="orderBy"
               name=""
               onChange={handleSelectChange}
@@ -195,7 +220,7 @@ const Home = (props) => {
               <option value="vida">Vida</option>
             </select>
 
-            <select class="select " id="order" name="" onChange={handleOrder}>
+            <select className="select " id="order" name="" onChange={handleOrder}>
               <option value="ASC"> ASC</option>
               <option value="DESC">DESC</option>
             </select>
@@ -204,7 +229,7 @@ const Home = (props) => {
           <div>
             <span>Filter By </span>
             <select
-              class="select"
+              className="select"
               name="filter"
               id="filter"
               onChange={handleFilterChange}
@@ -227,19 +252,37 @@ const Home = (props) => {
         </div>
       </div> */}
 
-      <Container  /* className="container-card" */>
+      <Container /* className="container-card" */>
         {props.pokemosAll ? (
           <ListaPokemos pokemons={pokemonsActuales} />
         ) : (
           <p>Cargando . . .</p>
         )}
-      </Container >
+      </Container>
 
       <Paginacion
         PokemonPorPagina={pokemonPorPagina}
         TotalPokemon={props.pokemosAll.length}
         Paginar={Paginar}
       />
+
+      <div
+        className="container-fluid p-1 mb-4 shadow"
+        style={{ backgroundColor: "#1a1e4b" }}
+      >
+        <div className="row m-0">
+          <div className="col-4">
+            <span
+              className="text-light text-start"
+              style={{ fontSize: "0.7em" }}
+            >
+              <img style={{ width: "1.5em" }} src="/favicon.ico" alt="ICON" />{" "}
+              Henry PI PT-07
+            </span>
+          </div>
+          
+        </div>
+      </div>
     </div>
   );
 };
