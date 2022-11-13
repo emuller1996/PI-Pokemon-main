@@ -24,8 +24,8 @@ export default function Footer() {
                                 </div>
                                 <div className="col-9 text-start">
                                     <span className="text-blue-p text-sm text-start d-block"> Estefano Muller Estupiñan </span>
-                                    <span className="text-blue-p text-sm text-start d-block"><i class="fa-brands fa-stack-overflow me-2"></i> FullStack Junior </span>
-                                    <span className="text-blue-p text-sm text-start d-block"><i class="fa-solid fa-graduation-cap me-2"></i>  Estudiante de Ingeneria de Sistemas </span>
+                                    <span className="text-blue-p text-sm text-start d-block"><i className="fa-brands fa-stack-overflow me-2"></i> FullStack Junior </span>
+                                    <span className="text-blue-p text-sm text-start d-block"><i className="fa-solid fa-graduation-cap me-2"></i>  Estudiante de Ingeneria de Sistemas </span>
                                     <span className="text-blue-p text-sm text-start d-block"><i className="fa-solid fa-location-dot me-2"></i>Colombia, Valle del Cauca </span>
                                     <span className="text-blue-p text-sm text-start d-block">
                                         Habilidades
