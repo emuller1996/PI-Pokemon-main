@@ -18,13 +18,22 @@
 }
 
 
-.me-2{
-  margin-right: 0.5em;
-}
-.ms-2{
-  margin-left: 0.5em;
+.text-sm{
+  font-size:0.8em;
+  color:rgb(205, 39, 234);
+  font-weight: 400;
 }
 
+.text-blue-p{
+  color: var(--bg-blue-p);
+}
+.blue-60{
+  background-color:var(--bg-blue-60);
+}
+
+.bg-blue-p{
+  background-color:var(--bg-blue-p)
+}
 .App {
   text-align: center;
 }
