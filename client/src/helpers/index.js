@@ -36,24 +36,5 @@ export function validateName(input) {
   if ( input.velocidad > 100 || input.velocidad < 0) { errors.velocidad = 'velocidad invalida'; }
   if ( input.peso > 550 || input.peso < 0) { errors.peso = 'peso invalida'; }
   if ( input.altura > 22 || input.altura < 0) { errors.altura = 'altura invalida'; }
-
-
-
-
- 
-
   return errors;
-
 };
-
-
-export function validateStast(input){
-  let errors = {};
-  console.log(input);
-  
-
-  return errors;
-
-}
-
-

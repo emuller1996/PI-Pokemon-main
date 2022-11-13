@@ -8,32 +8,29 @@ import {
   orderPokemonbyVida,
   filterPokemon,
 } from "../../actions/index";
-import logoPokemon from "../../pokemon-logo.png";
+
 
 import "./Home.css";
 import ListaPokemos from "./ListaPokemos/ListaPokemons";
 import Paginacion from "./Paginacion/Paginacion";
 
 import Box from "@mui/material/Box";
-import {
-  Button,
-  Grid,
-  Input,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Button, Grid, Input, MenuItem, Select } from "@mui/material";
 import { Container } from "@mui/system";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import { Link } from "react-router-dom";
 
 const Home = (props) => {
   const [order, setOrder] = useState("");
   const [nameBuscar, setNameBuscar] = useState("");
   const [orderBy, setOrderBy] = useState("Name");
   const [render, setRender] = useState(false);
-  const [error, setError] = useState({});
+  const [setError] = useState({});
   const [filterPokemon, setFilterPokemon] = useState("");
 
   const [paginaActual, setPaginaActual] = useState(1);
-  const [pokemonPorPagina, setPokemonPorPagina] = useState(12);
+  const [pokemonPorPagina] = useState(12);
 
   useEffect(() => {
     try {
@@ -41,7 +38,7 @@ const Home = (props) => {
     } catch (error) {
       setError(error);
     }
-  }, []);
+  }, [setError]);
 
   useEffect(() => {
     if (order !== "") {
@@ -58,11 +55,9 @@ const Home = (props) => {
         setRender(!render);
       }
     }
-  }, [order, orderBy, props.pokemosAll]);
+  }, [order, orderBy, props.pokemosAll, render]);
 
   useEffect(() => {
-    console.log("filterUpdate");
-
     props.filterPokemon(props.pokemosAll, filterPokemon);
     setRender(!render);
     getPokemos();
@@ -77,7 +72,8 @@ const Home = (props) => {
   }
 
   function handleOrder(e) {
-    setOrder(e.target.value);
+    /* setOrder(e.target.value); */
+    /* setOrder('ASC') */
   }
 
   function BuscarPokemon() {
@@ -98,17 +94,12 @@ const Home = (props) => {
 
   return (
     <div>
-      <Box>
-        <img
-          style={{ width: "300px" }}
-          src={logoPokemon}
-          alt="LOGO_POKEMON_NINTENDO"
-        />
-      </Box>
+
+      <Navbar />
 
       <Box
         px={5}
-        mx={4}
+        mx={2}
         mb={3}
         boxShadow={3}
         borderRadius={2}
@@ -117,10 +108,12 @@ const Home = (props) => {
       >
         <Grid container spacing={2}>
           <Grid item xs={12} md={3} my={"auto"}>
-            <Button fullWidth variant="contained">
-              <i className="fa-solid fa-circle-plus me-2"></i>
-              New Pokemons
-            </Button>
+            <Link to="/create">
+              <Button fullWidth variant="contained">
+                <i className="fa-solid fa-circle-plus me-2"></i>
+                New Pokemons
+              </Button>
+            </Link>
           </Grid>
           <Grid item xs={12} md={6}>
             <Input
@@ -142,23 +135,21 @@ const Home = (props) => {
           </Grid>
           <Grid item xs={12} md={4} my={"auto"}>
             <span className="me-2">Sort</span>
-            <Button className="me-2" variant="contained">
-              <i class="fa-solid fa-arrow-up-short-wide "></i>
+            <Button className="me-2" variant="contained" onClick={handleOrder}>
+              <i className="fa-solid fa-arrow-up-short-wide "></i>
             </Button>
             <span className="ms-2">By </span>
-            
-              <Select
-                variant="standard"
-                color="primary"
-                displayEmpty
-            
-              >
-                
-                <MenuItem color="#1a1e4b" value={10}>HP</MenuItem>
-                <MenuItem value={20}>Attack</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            
+
+            <Select
+              variant="standard"
+              color="primary"
+              value={orderBy}
+              displayEmpty
+              onChange={handleSelectChange}
+            >
+              <MenuItem value={"Name"}>Name</MenuItem>
+              <MenuItem value={"vida"}>Hp</MenuItem>
+            </Select>
           </Grid>
         </Grid>
       </Box>
@@ -185,7 +176,7 @@ const Home = (props) => {
           <div>
             <span>Order By </span>
             <select
-              class="select "
+              className="select "
               id="orderBy"
               name=""
               onChange={handleSelectChange}
@@ -195,7 +186,7 @@ const Home = (props) => {
               <option value="vida">Vida</option>
             </select>
 
-            <select class="select " id="order" name="" onChange={handleOrder}>
+            <select className="select " id="order" name="" onChange={handleOrder}>
               <option value="ASC"> ASC</option>
               <option value="DESC">DESC</option>
             </select>
@@ -204,7 +195,7 @@ const Home = (props) => {
           <div>
             <span>Filter By </span>
             <select
-              class="select"
+              className="select"
               name="filter"
               id="filter"
               onChange={handleFilterChange}
@@ -227,19 +218,21 @@ const Home = (props) => {
         </div>
       </div> */}
 
-      <Container  /* className="container-card" */>
+      <Container /* className="container-card" */>
         {props.pokemosAll ? (
           <ListaPokemos pokemons={pokemonsActuales} />
         ) : (
           <p>Cargando . . .</p>
         )}
-      </Container >
+      </Container>
 
       <Paginacion
         PokemonPorPagina={pokemonPorPagina}
         TotalPokemon={props.pokemosAll.length}
         Paginar={Paginar}
       />
+
+      <Footer />
     </div>
   );
 };

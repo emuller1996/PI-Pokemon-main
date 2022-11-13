@@ -1,19 +1,18 @@
 .card-pokemon{
-    border:var(--bg-blue-p) 2px solid;
-    width: 25%;
+    border:var(--bg-blue-p) 0.13em solid !important;
     border-radius:var(--bordeado);
     background-color:var(--bg-blue-60);
     box-shadow:0px 0px 5px 1px var(--bg-blue-p);
     text-decoration: none;
     cursor: pointer;
-    transform: scale(1);
-    transition: 0.3s ease-in-out;
+    
 }
 
 .card-pokemon:hover{
-    transform: scale(1.03);
-    box-shadow:0px 0px 5px 1px var(--bg-amarillo-p);
-    border:var(--bg-amarillo-p) 2px solid;
+    
+    box-shadow:0px 0px 5px 2px var(--bg-blue-p) !important;
+    /* border:var(--bg-amarillo-p) 0.13em solid !important; */
+    background-color:var(--bg-blue-60) !important ;
 }
 
 .img-pokemon{

@@ -1,86 +1,92 @@
-import React,{useEffect} from 'react';
-import { connect } from "react-redux";
+import { CircularProgress, Grid, LinearProgress } from '@mui/material';
+import React, { Fragment, useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from 'react-router-dom';
 import { getPokemonDetalle } from "../../actions/index";
 import spiner from '../../Spinner-5.gif';
+import Footer from '../Footer/Footer';
+import Navbar from '../Navbar/Navbar';
 import './PokemonDetalle.css';
 
 
-const PokemonDetalle =(props)=>{
+const PokemonDetalle = (props) => {
+
+    const dispatch = useDispatch();
+    const { id } = useParams();
+    const history = useHistory();
+
+    const pokemonDetalle = useSelector( state => state.pokemonDetalle);
+
+    useEffect(() => {
+        dispatch(getPokemonDetalle(id));
+    },[dispatch,id])
 
 
-    useEffect(  ()=>{
-
-        const detail = async()=>{
-            await props.getPokemonDetalle(props.match.params.id);
-        }
-        detail();
-
-    },[])
 
 
-
-
-    if(!props.pokemonDetalle.name){
+    if (!pokemonDetalle.name) {
         return (
             <img className='spinner' src={spiner} alt="Cargardo . . ." />
-        ) 
-    }else{
-        return(
-            <div className='card-pokemon-detalle'>
+        )
+    } else {
+        return (
+            <>
+                <Navbar />
 
-                
-                    <img src={props.pokemonDetalle.sprites ? props.pokemonDetalle.sprites.other.dream_world.front_default : props.pokemonDetalle.img } alt="asd" />
-                    <div className='body-card'>
-                        <h1>{props.pokemonDetalle.name}</h1>
-                        <h3 > ID  : {props.pokemonDetalle.id}</h3>
-                        <div className='detalle-flex'>
-                            <ul className='tipes'>
-                                <p>Tipos</p>
-                                {props.pokemonDetalle.types.map( t => (
-                                    t.type ?  <li key={t.name}>{t.type.name}</li>  : <li key={t.name}>{t.name}</li>
-                                ))}
-                            </ul>
+                <div
+                    
+                    className="container border shadow  blue-60 shadow rounded py-4"
+                >
+                    <div className="float-end px-3">
+                        <button onClick={()=> history.goBack() } className="btn btn-light text-blue-p"><i  className="fa-solid fa-arrow-left fa-xl"></i></button>
+                    </div>
+                    <div className="row g-0 m-0">
 
-                            <ul className='stats'>
-                                <p>Stats</p>
-                                { props.pokemonDetalle.stats ? props.pokemonDetalle.stats.map( s => (
-                                    <li key={s.name}> {`${s.stat.name} :  ${s.base_stat}`}</li>
-                                )) : ( <>
-                                        <li> hp :  {props.pokemonDetalle.vida}</li>
-                                        <li> attack  :  {props.pokemonDetalle.ataque}</li>
-                                        <li> defense   :  {props.pokemonDetalle.defensa}</li>
-                                        <li> speed   :  {props.pokemonDetalle.velocidad}</li>
-                                    </>
-                                )}
-                            </ul>
+                        <div className="col-md-4">
+                            <img style={{ width: '15em' }} src={pokemonDetalle.sprites ? pokemonDetalle.sprites.other.dream_world.front_default : props.pokemonDetalle.img} alt="asd" />
+                        </div>
+                        <div className="col-md-7 ">
+                            <p className="fs-1 text-blue-p"> { pokemonDetalle.name &&  pokemonDetalle.name}</p>
+                            <div className="  text-center   p-2 ">
+                                <p className="fs-5 text-blue-p mx-4">Stats</p>
+                                <Grid container spacing={2} alignItems="center">
 
-                            <ul className='tipes'>
-                                <li> Peso : {props.pokemonDetalle.weight ? props.pokemonDetalle.weight : props.pokemonDetalle.peso } Kg</li>
-                                <li> Altura : {props.pokemonDetalle.height ? props.pokemonDetalle.height : props.pokemonDetalle.altura } m</li>
-                            </ul>
+                                    { pokemonDetalle.stats.length !== 0 ?  pokemonDetalle.stats.map(stat =>
+                                    (
+                                        < Fragment key={stat.stat.name}>
+                                            <Grid key={stat.stat.name} item xs={5}>
+                                                <span className="text-uppercase ">{stat.stat.name}</span>
+                                            </Grid>
+                                            <Grid key={stat.base_stat} item xs={7}>
+                                                <LinearProgress
+                                                    variant="determinate"
+                                                    value={stat.base_stat}
+                                                    style={{ padding: "0.4em", borderRadius: '0.3em' }}
+                                                />
+                                            </Grid>
+                                            </Fragment>
+
+                                    )) : (<CircularProgress />)}
+
+
+
+                                </Grid>
+                            </div>
+
                         </div>
                     </div>
+
+                </div>
                 
-                
-            </div>
+                <Footer />
+            </>
         )
     }
-    
+
 
 }
 
-function mapStateToProps(state) {
-    return {
-        pokemonDetalle: state.pokemonDetalle
-    };
-  }
-  
-  function mapDispatchToProps(dispatch) {
-    return {
-        getPokemonDetalle : (id) => dispatch(getPokemonDetalle(id)) 
-    };
-  }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PokemonDetalle);
+export default PokemonDetalle;
 
