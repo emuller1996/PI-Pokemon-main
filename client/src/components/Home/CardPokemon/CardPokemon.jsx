@@ -50,7 +50,7 @@ const CardPokemon = (props) => {
           <p className="text-start m-0 p-0">Types</p>
           <Grid container spacing={1}>
             {props.pokemon.types.map((t) => (
-              <Grid key={t.type.name} item xs={4}>
+              <Grid  item xs={4}>
                 <span className="text-start"> ► {t.type ? t.type.name : t.name} </span>
               </Grid>
             ))}
