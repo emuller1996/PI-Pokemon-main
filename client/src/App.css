@@ -25,7 +25,7 @@
 }
 
 .text-blue-p{
-  color: var(--bg-blue-p);
+  color: var(--bg-blue-p) !important;
 }
 .blue-60{
   background-color:var(--bg-blue-60);
