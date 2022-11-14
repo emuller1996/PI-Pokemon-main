@@ -72,7 +72,7 @@ router.post('/', async (req, res)=>{
     types.map(async t => {
         await pokeCreated.addType(t.id);
     })
-    res.status(201).send({msg: 'Pokemon Creado', pokeCreated: pokeCreated})
+    res.status(201).json({msg: 'Pokemon Creado', pokeCreated: pokeCreated})
 })
 
 
