@@ -6,9 +6,9 @@ import "./CardPokemon.css";
 
 const CardPokemon = (props) => {
   return (
-    <Link to={`/pokemon/${props.pokemon.id}`} className=" text-decoration-none">
+    <Link  to={`/pokemon/${props.pokemon.id}`} className=" text-decoration-none">
       <Box
-        key={props.pokemon.name}
+       
         border={1}
         borderColor={"#1a1e4b"}
         borderRadius={2}

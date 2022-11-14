@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import {
   getPokemos,
   orderPokemon,
   getPokemonByName,
   orderPokemonbyAttack,
   orderPokemonbyVida,
-  filterPokemon,
+  filterPokemon as filterbyOrigin,
 } from "../../actions/index";
-
 
 import "./Home.css";
 import ListaPokemos from "./ListaPokemos/ListaPokemons";
@@ -22,62 +21,70 @@ import Footer from "../Footer/Footer";
 import { Link } from "react-router-dom";
 
 const Home = (props) => {
-  const [order, setOrder] = useState("");
+  //states
+  const [order, setOrder] = useState("ASC");
   const [nameBuscar, setNameBuscar] = useState("");
   const [orderBy, setOrderBy] = useState("Name");
-  const [render, setRender] = useState(false);
-  const [setError] = useState({});
   const [filterPokemon, setFilterPokemon] = useState("");
 
   const [paginaActual, setPaginaActual] = useState(1);
   const [pokemonPorPagina] = useState(12);
 
+  const pokemonsAll = useSelector((state) => state.pokemosAll);
+  const dispatch = useDispatch();
+
+  //useEffects
   useEffect(() => {
     try {
-      getPokemos();
+      if (pokemonsAll.length === 0) dispatch(getPokemos());
     } catch (error) {
-      setError(error);
+      console.log(error);
     }
-  }, [setError]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (order !== "") {
       if (orderBy === "Name") {
-        props.orderPokemon(props.pokemosAll, order);
-        setRender(!render);
+        dispatch(orderPokemon(pokemonsAll, order));        
       }
       if (orderBy === "Attack") {
-        props.orderPokemonbyAttack(props.pokemosAll, order);
-        setRender(!render);
+        dispatch(orderPokemonbyAttack(pokemonsAll, order));      
       }
       if (orderBy === "vida") {
-        props.orderPokemonbyVida(props.pokemosAll, order);
-        setRender(!render);
+        dispatch(orderPokemonbyVida(pokemonsAll, order));        
       }
     }
-  }, [order, orderBy, props.pokemosAll, render]);
+  }, [order, orderBy,dispatch,pokemonsAll]);
 
   useEffect(() => {
-    props.filterPokemon(props.pokemosAll, filterPokemon);
-    setRender(!render);
-    getPokemos();
-  }, [filterPokemon]);
+    dispatch(filterbyOrigin(pokemonsAll, filterPokemon));
+    
+  }, [filterPokemon,dispatch]);
+
+  //paginacion
 
   const UltimoIndice = paginaActual * pokemonPorPagina;
   const PrimerIndice = UltimoIndice - pokemonPorPagina;
-  const pokemonsActuales = props.pokemosAll.slice(PrimerIndice, UltimoIndice);
+  const pokemonsActuales = pokemonsAll.slice(PrimerIndice, UltimoIndice);
 
   function Paginar(numeroPagina) {
     setPaginaActual(numeroPagina);
   }
 
+  //Functions
+
   function handleOrder(e) {
     /* setOrder(e.target.value); */
     /* setOrder('ASC') */
+    setOrder(e);
   }
 
   function BuscarPokemon() {
-    props.getPokemonByName(props.pokemosAll, nameBuscar);
+    if (nameBuscar === "") {
+      dispatch(getPokemos());
+    } else {
+      props.getPokemonByName(pokemonsAll, nameBuscar);
+    }
   }
 
   function onChange(e) {
@@ -94,7 +101,6 @@ const Home = (props) => {
 
   return (
     <div>
-
       <Navbar />
 
       <Box
@@ -119,25 +125,43 @@ const Home = (props) => {
             <Input
               fullWidth
               placeholder="Search Pokemon"
+              onChange={onChange}
+              className="text-blue-p"
               style={{
                 backgroundColor: "#d5daea",
                 borderRadius: "0.3em 0.3em",
-                color: "#1a1e4b",
+                fontWeight : 'semibold',
                 padding: "0.2em",
                 overflow: "hidden",
               }}
             />
           </Grid>
           <Grid item xs={12} md={3} my={"auto"}>
-            <Button fullWidth variant="contained">
+            <Button fullWidth variant="contained" onClick={BuscarPokemon}>
               Search
             </Button>
           </Grid>
           <Grid item xs={12} md={4} my={"auto"}>
-            <span className="me-2">Sort</span>
-            <Button className="me-2" variant="contained" onClick={handleOrder}>
-              <i className="fa-solid fa-arrow-up-short-wide "></i>
-            </Button>
+            <span className="mx-2">Sort</span>
+            {order === "ASC" && (
+              <Button
+                className="me-2"
+                variant="contained"
+                onClick={() => handleOrder("DESC")}
+              >
+                <i class="fa-solid fa-arrow-up-wide-short"></i>
+              </Button>
+            )}
+            {order === "DESC" && (
+              <Button
+                className="me-2"
+                variant="contained"
+                onClick={() => handleOrder("ASC")}
+              >
+                <i className="fa-solid fa-arrow-up-short-wide "></i>
+              </Button>
+            )}
+
             <span className="ms-2">By </span>
 
             <Select
@@ -146,9 +170,27 @@ const Home = (props) => {
               value={orderBy}
               displayEmpty
               onChange={handleSelectChange}
+              className="text-blue-p"
             >
-              <MenuItem value={"Name"}>Name</MenuItem>
-              <MenuItem value={"vida"}>Hp</MenuItem>
+              <MenuItem className="text-blue-p" value={"Name"}>Name</MenuItem>
+              <MenuItem className="text-blue-p" value={"vida"}>Hp</MenuItem>
+              <MenuItem className="text-blue-p" value={"Attack"}>Attack</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={12} md={4} my={"auto"}>
+            <span className="mx-2"> Filter </span>
+
+            <Select
+              variant="standard"
+              color="primary"
+              
+              displayEmpty
+              
+              className="text-blue-p"
+            >
+              <MenuItem className="text-blue-p" value={"Name"}>All</MenuItem>
+              <MenuItem className="text-blue-p" value={"vida"}>Created</MenuItem>
+              <MenuItem className="text-blue-p" value={"Attack"}>Existing</MenuItem>
             </Select>
           </Grid>
         </Grid>
@@ -219,7 +261,7 @@ const Home = (props) => {
       </div> */}
 
       <Container /* className="container-card" */>
-        {props.pokemosAll ? (
+        {pokemonsAll ? (
           <ListaPokemos pokemons={pokemonsActuales} />
         ) : (
           <p>Cargando . . .</p>
@@ -228,7 +270,7 @@ const Home = (props) => {
 
       <Paginacion
         PokemonPorPagina={pokemonPorPagina}
-        TotalPokemon={props.pokemosAll.length}
+        TotalPokemon={pokemonsAll.length}
         Paginar={Paginar}
       />
 
@@ -237,25 +279,12 @@ const Home = (props) => {
   );
 };
 
-function mapStateToProps(state) {
+/* function mapDispatchToProps(dispatch) {
   return {
-    pokemosAll: state.pokemosAll,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    getPokemos: dispatch(getPokemos()),
     orderPokemon: (pokemon, order) => dispatch(orderPokemon(pokemon, order)),
-    getPokemonByName: (pokemons, name) =>
-      dispatch(getPokemonByName(pokemons, name)),
-    orderPokemonbyAttack: (pokemon, order) =>
-      dispatch(orderPokemonbyAttack(pokemon, order)),
-    orderPokemonbyVida: (pokemon, order) =>
-      dispatch(orderPokemonbyVida(pokemon, order)),
     filterPokemon: (pokemon, filter) =>
       dispatch(filterPokemon(pokemon, filter)),
   };
-}
+} */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

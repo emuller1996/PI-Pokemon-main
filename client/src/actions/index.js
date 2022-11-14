@@ -6,6 +6,8 @@ export const GET_POKEMOS = "GET_POKEMOS";
 export const GET_POKEMOS_DETALLE = "GET_POKEMOS_DETALLE";
 export const ORDER_POKEMON_BY_NAME = 'ORDER_POKEMON_BY_NAME';
 export const ORDER_POKEMON_BY_ATTACK = 'ORDER_POKEMON_BY_ATTACK';
+export const ORDER_POKEMON_BY_HP = 'ORDER_POKEMON_BY_HP';
+
 
 export const GET_TYPES = 'GET_TYPES';
 export const GET_POKEMON_BY_NAME = "GET_POKEMON_BY_NAME";
@@ -48,9 +50,7 @@ export function changeOrder(order){
 
 export function orderPokemon(Pokemon, order){
   return function(dispatch){
-
     Pokemon.sort(compare_name);
-
     if(order === 'ASC'){
       return dispatch({ type: ORDER_POKEMON_BY_NAME, payload: Pokemon });
     }else if(order === 'DESC'){
@@ -61,9 +61,7 @@ export function orderPokemon(Pokemon, order){
 
 export function orderPokemonbyAttack(Pokemon,order){
   return function(dispatch){
-
     Pokemon.sort(compare_attack);
-
     if(order === 'ASC'){
       return dispatch({ type: ORDER_POKEMON_BY_ATTACK, payload: Pokemon });
     }else if(order === 'DESC'){
@@ -79,9 +77,9 @@ export function orderPokemonbyVida(Pokemon,order){
     Pokemon.sort(compare_vida);
 
     if(order === 'ASC'){
-      return dispatch({ type: ORDER_POKEMON_BY_ATTACK, payload: Pokemon });
+      return dispatch({ type: ORDER_POKEMON_BY_HP, payload: Pokemon });
     }else if(order === 'DESC'){
-      return dispatch({ type: ORDER_POKEMON_BY_ATTACK, payload: Pokemon.reverse() });
+      return dispatch({ type: ORDER_POKEMON_BY_HP, payload: Pokemon.reverse() });
     }
   }
 
@@ -90,7 +88,7 @@ export function orderPokemonbyVida(Pokemon,order){
 
 export function getTypes(){
   return async function (dispatch) {
-      const result = await axios.get("http://localhost:3001/types");
+      const result = await axios.get("/types");
       return dispatch({ type: GET_TYPES, payload: result.data.types });
   };
 
@@ -113,7 +111,7 @@ export function filterPokemon(pokemons,filter){
       return dispatch({ type: FILTER_POKEMON, payload: pokemons.filter( p => typeof p.id === "number") });
     }
     if(filter === 'Todos'){
-      const result = await axios.get("http://localhost:3001/pokemons");
+      const result = await axios.get("/pokemons");
         return dispatch({ type: GET_POKEMOS, payload: result.data.pokemons });
     }
 
