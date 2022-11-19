@@ -7,7 +7,8 @@ import {
   CHANGE_ORDER,
   ORDER_POKEMON_BY_ATTACK,
   FILTER_POKEMON,
-  ORDER_POKEMON_BY_HP
+  ORDER_POKEMON_BY_HP,
+  FILTER_POKEMON_BY_TYPES
 } from "../actions/index";
 
 const initialState = {
@@ -77,6 +78,13 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         types: action.payload,
+      }
+    }
+
+    if(action.type === FILTER_POKEMON_BY_TYPES){
+      return {
+        ...state,
+        pokemosAll: action.payload,
       }
     }
     return state;

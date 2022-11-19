@@ -29,7 +29,6 @@ export function validateName(input) {
   } else if (!/^[A-Z]+$/i.test(input.name)) {
     errors.name = 'Nombre invalido (Solo Letras!!)';
   }
-
   if ( input.vida > 100 || input.vida < 0 ) { errors.vida = 'Vida invalida'; }
   if ( input.ataque > 100 || input.ataque < 0) { errors.ataque = 'ataque  invalida'; }
   if ( input.defensa > 100 || input.defensa < 0) { errors.defensa = 'defensa invalida'; }

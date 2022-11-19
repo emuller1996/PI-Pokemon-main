@@ -17,7 +17,7 @@ const Paginacion = ({PokemonPorPagina,TotalPokemon,Paginar})=>{
         </nav> */
 
     const NumeroDePaginas = [];
-    const [page,setPage] = useState(0);
+    const [page,setPage] = useState(1);
 
     for (let i=1; i <= Math.ceil(TotalPokemon/PokemonPorPagina); i++){
         NumeroDePaginas.push(i);
@@ -30,7 +30,12 @@ const Paginacion = ({PokemonPorPagina,TotalPokemon,Paginar})=>{
     return (
 
         
-        <Pagination style={ { backgroundColor :'#2e4595' }}  className='mx-4 mt-3  py-2 rounded  text-white' defaultPage={page} color="primary" page={page && page}  onChange={handleChange} count={NumeroDePaginas.length} siblingCount={0} />
+        <Pagination 
+        style={ { backgroundColor :'#2e4595' }}  
+        className='mx-4 mt-3  py-2 rounded  text-white' 
+        defaultPage={page} color="primary" page={page && page}  
+        onChange={handleChange} count={NumeroDePaginas.length} 
+        siblingCount={1} />
 
     )
 }
