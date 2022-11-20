@@ -292,13 +292,15 @@ const Home = () => {
       </div> */}
 
       <Container /* className="container-card" */>
-        {pokemonsAll !== 0 ? (
-          <ListaPokemos pokemons={pokemonsActuales} />
-        ) : <CircularProgress />
+        {pokemonsAll.length === 0 && !filterPokemon && !filterPokemonByTypes ? (
+          <CircularProgress />
+        ) : <ListaPokemos pokemons={pokemonsActuales} /> 
         }
         {
-          filterPokemonByTypes && pokemonsAll.length === 0 && (
-            <p>no hay pokemons</p>
+          (filterPokemonByTypes || filterPokemon) && pokemonsAll.length === 0 && (
+            <Box bgcolor={'#d5daea'} m={2} borderRadius={2} p={2}>
+              <p className="text-cente fs-5 text-uppercase align-middle"> <i class="fa-solid fa-triangle-exclamation fa-2x me-2 "></i> no pokemon found</p>
+            </Box>
           )
         }
 

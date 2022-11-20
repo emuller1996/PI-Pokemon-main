@@ -3,8 +3,6 @@ import CardPokemon from "../CardPokemon/CardPokemon";
 import { CircularProgress, Grid } from "@mui/material";
 
 const ListaPokemos = (props) => {
-  if (props.pokemons.length === 0)
-    return <CircularProgress />;
 
   return (
     <Grid container spacing={3} alignItems="center">
