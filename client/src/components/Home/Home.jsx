@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getPokemos,
   orderPokemon,
@@ -16,7 +16,7 @@ import ListaPokemos from "./ListaPokemos/ListaPokemons";
 import Paginacion from "./Paginacion/Paginacion";
 
 import Box from "@mui/material/Box";
-import { Button, Grid, Input, MenuItem, Select } from "@mui/material";
+import { Button, CircularProgress, Grid, Input, MenuItem, Select } from "@mui/material";
 import { Container } from "@mui/system";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -42,7 +42,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getTypes())
     try {
-       dispatch(getPokemos());
+      dispatch(getPokemos());
     } catch (error) {
       console.log(error);
     }
@@ -51,26 +51,26 @@ const Home = () => {
   useEffect(() => {
     if (order !== "") {
       if (orderBy === "Name") {
-        dispatch(orderPokemon(pokemonsAll, order));        
+        dispatch(orderPokemon(pokemonsAll, order));
       }
       if (orderBy === "Attack") {
-        dispatch(orderPokemonbyAttack(pokemonsAll, order));      
+        dispatch(orderPokemonbyAttack(pokemonsAll, order));
       }
       if (orderBy === "vida") {
-        dispatch(orderPokemonbyVida(pokemonsAll, order));        
+        dispatch(orderPokemonbyVida(pokemonsAll, order));
       }
     }
-  }, [order, orderBy,dispatch,pokemonsAll]);
+  }, [order, orderBy, dispatch, pokemonsAll]);
 
   useEffect(() => {
     dispatch(filterbyOrigin(pokemonsAll, filterPokemon));
   }, [filterPokemon]);
 
 
-  useEffect( ()=> {
-    
-    if(filterPokemonByTypes !== "") dispatch(filterPokemonByType(pokemonsAll,filterPokemonByTypes));
-  },[filterPokemonByTypes])
+  useEffect(() => {
+
+    if (filterPokemonByTypes !== "") dispatch(filterPokemonByType(pokemonsAll, filterPokemonByTypes));
+  }, [filterPokemonByTypes])
 
   //paginacion
 
@@ -109,7 +109,7 @@ const Home = () => {
   function handleFilterChange(e) {
     setFilterPokemon(e.target.value);
   }
-  function handleFilterByType(e){
+  function handleFilterByType(e) {
     setFilterPokemonByTypes(e.target.value)
   }
 
@@ -144,7 +144,7 @@ const Home = () => {
               style={{
                 backgroundColor: "#d5daea",
                 borderRadius: "0.3em 0.3em",
-                fontWeight : 'semibold',
+                fontWeight: 'semibold',
                 padding: "0.2em",
                 overflow: "hidden",
               }}
@@ -196,14 +196,14 @@ const Home = () => {
 
             <Select
               variant="standard"
-              color="primary"             
+              color="primary"
               displayEmpty
               onChange={handleFilterChange}
               className="text-blue-p text-white"
             >
               <MenuItem className="text-blue-p" value={"All"}>All</MenuItem>
               <MenuItem disabled={filterPokemon === "Existing" ? true : false} className="text-blue-p" value={"Created"}>Created</MenuItem>
-              <MenuItem  disabled={filterPokemon === "Created" ? true : false} className="text-blue-p" value={"Existing"}>Existing</MenuItem>
+              <MenuItem disabled={filterPokemon === "Created" ? true : false} className="text-blue-p" value={"Existing"}>Existing</MenuItem>
             </Select>
           </Grid>
 
@@ -212,14 +212,14 @@ const Home = () => {
 
             <Select
               variant="standard"
-              color="primary"             
+              color="primary"
               displayEmpty
-              onChange={handleFilterByType}              
+              onChange={handleFilterByType}
               className="text-blue-p text-white"
-            >             
+            >
               {
-                typesAll &&  typesAll.map( t => ( <MenuItem key={t.id} className="text-blue-p" value={t.name}>{t.name}</MenuItem> ))
-              }                                       
+                typesAll && typesAll.map(t => (<MenuItem key={t.id} className="text-blue-p" value={t.name}>{t.name}</MenuItem>))
+              }
             </Select>
           </Grid>
 
@@ -292,12 +292,19 @@ const Home = () => {
       </div> */}
 
       <Container /* className="container-card" */>
-        {pokemonsAll ? (
+        {pokemonsAll !== 0 ? (
           <ListaPokemos pokemons={pokemonsActuales} />
-        ) : (
-          <p>Cargando . . .</p>
-        )}
+        ) : <CircularProgress />
+        }
+        {
+          filterPokemonByTypes && pokemonsAll.length === 0 && (
+            <p>no hay pokemons</p>
+          )
+        }
+
+
       </Container>
+
 
       <Paginacion
         PokemonPorPagina={pokemonPorPagina}
